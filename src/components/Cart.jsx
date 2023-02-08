@@ -1,137 +1,128 @@
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment, useEffect } from "react";
 import { BsFillCartFill } from "react-icons/bs";
+import { AiFillShopping } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { add, decreaseCart, getTotals, remove } from "../redux/cartReducer";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
-import { useCusContext } from "../redux/customer/useCusContext";
-import defaultImage from "../assets/images/defaultImage.jpg"
+import { useNavigate } from "react-router-dom";
+import defaultImage from "../assets/images/defaultImage.jpg";
+import { ButtonLink } from "./atoms/button/Button";
+import HandleQuantity from "./molecules/HandleQuantity";
+import Bug from "./Bug";
 
 export default function Cart() {
-  const dispatch = useDispatch();
-  const { customer } = useCusContext();
-  const navigate = useNavigate(); 
+   const dispatch = useDispatch();
+   const navigate = useNavigate();
 
-  const cart = useSelector((state) => state.cart);
+   const cart = useSelector((state) => state.cart);
 
-  useEffect(() => {
-    dispatch(getTotals());
-    console.log(customer)
-  }, [cart, dispatch]);
+   useEffect(() => {
+      dispatch(getTotals());
+   }, [cart, dispatch]);
 
-  const handleMinus = (product, e) => {
-    dispatch(decreaseCart(product));
-  };
-  const handleIncrease = (product) => {
-    dispatch(add(product));
-  };
+   const handleMinus = (product, e) => {
+      dispatch(decreaseCart(product));
+   };
+   const handleIncrease = (product) => {
+      dispatch(add(product));
+   };
 
-  const handleRemove = (product) => {
-    dispatch(remove(product._id));
-  };
+   const handleRemove = (product) => {
+      dispatch(remove(product._id));
+   };
 
-  const checkOuts = () => {
-      navigate('/order')
-    
-  };
-  return (
-    <Menu as="div" className="relative inline-block text-left z-40">
-      <div>
-        <Menu.Button className="relative inline-flex w-full justify-center rounded-md bg-yellow-100 px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-          <span className="rounded-full bg-yellow-300 absolute -top-2 -left-2 px-2">
-            {cart.cartTotalQuantity}
-          </span>
-          <BsFillCartFill size={20} />
-        </Menu.Button>
-      </div>
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute md:w-[620px] sm:w-[450px] w-[350px] right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="px-1 py-1 ">
-            <Menu.Item>
-              {({ active }) => (
-                <div
-                  className={`${
-                    active ? "bg-yellow-50 bg-opacity-30" : ""
-                  } group w-full items-center rounded-md justify-center px-2 py-2 text-sm cursor-default`}
-                >
-                  {cart.cartItems.length > 0 ? (
-                    <div>
-                      {cart.cartItems.map((product, i) => (
-                        <div key={i} className="flex w-full items-center gap-2">
-                            <div className="w-32 flex justify-center items-center">
-                              <img
-                                src={product.img || defaultImage}
-                                alt={product.title}
-                                className="object-cover h-28"
-                              />
-                            </div>
-                          <div className="w-full">
-                            <div className="flex justify-between">
-                              <p className="md:text-xl w-max mb-2 lowercase bg-yellow-100 rounded-md sm:px-2 px-1">
-                                {product.title}
-                              </p>
-                              <button
-                                onClick={() => handleRemove(product)}
-                                className="bg-red-100 border border-red-400 items-center flex justify-center text-red-700 rounded md:h-7 md:w-7 w-5 h-5"
-                              >
-                                <AiFillDelete />
-                              </button>
-                            </div>
-                            <div className="flex justify-between">
-                              <p>Rp.{product.price}</p>
-                              <div className="flex space-x-2 items-center">
-                                <button
-                                  className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
-                                  onClick={() => handleMinus(product)}
-                                >
-                                  -
-                                </button>
-                                <span>{product.cartQuantity}</span>
-                                <button
-                                  className="sm:h-6 w-5 h-5 sm:w-6  text-xl text-center items-center flex justify-center p-2 shadow-md"
-                                  onClick={() => handleIncrease(product)}
-                                >
-                                  +
-                                </button>
+   const checkOuts = () => {
+      navigate("/order");
+   };
+   return (
+      <Menu as="div" className="relative inline-block text-left z-40">
+         <Menu.Button className="relative inline-flex backdrop-blur-50 w-full justify-center rounded-md bg-amber-200 px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+            <span className="rounded-full bg-amber-200 absolute -top-2 -left-2 px-2">
+               {cart.cartTotalQuantity}
+            </span>
+            <BsFillCartFill size={20} />
+         </Menu.Button>
+         <Transition
+            as={Fragment}
+            enter="transition ease-out duration-100"
+            enterFrom="transform opacity-0 scale-95"
+            enterTo="transform opacity-100 scale-100"
+            leave="transition ease-in duration-75"
+            leaveFrom="transform opacity-100 scale-100"
+            leaveTo="transform opacity-0 scale-95">
+            <Menu.Items className="absolute md:w-[620px] sm:w-[450px] w-[350px] right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white/50 backdrop-blur-60 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+               <div className="px-1 py-1 ">
+                  <Menu.Item>
+                     {({ active }) => (
+                        <div
+                           className={`${
+                              active ? "bg-yellow-50 bg-opacity-30" : ""
+                           } group w-full items-center rounded-md justify-center px-2 py-2 text-sm cursor-default`}>
+                           {cart.cartItems.length > 0 ? (
+                              <div>
+                                 {cart.cartItems.map((product, i) => (
+                                    <div
+                                       key={i}
+                                       className="flex w-full items-center gap-2">
+                                       <div className="w-32 flex justify-center items-center">
+                                          <img
+                                             src={product.img || defaultImage}
+                                             alt={product.title}
+                                             className="object-cover h-28"
+                                          />
+                                       </div>
+                                       <div className="w-full">
+                                          <div className="flex justify-between">
+                                             <p className="md:text-xl w-max mb-2 lowercase bg-yellow-100 rounded-md sm:px-2 px-1">
+                                                {product.title}
+                                             </p>
+                                             <button
+                                                onClick={() =>
+                                                   handleRemove(product)
+                                                }
+                                                className="bg-red-100 border border-red-400 items-center flex justify-center text-red-700 rounded md:h-7 md:w-7 w-5 h-5">
+                                                <AiFillDelete />
+                                             </button>
+                                          </div>
+                                          <div className="flex justify-between">
+                                             <p>Rp.{product.price}</p>
+                                             <HandleQuantity
+                                                value={product.cartQuantity}
+                                                decrement={() =>
+                                                   handleMinus(product)
+                                                }
+                                                increment={() =>
+                                                   handleIncrease(product)
+                                                }
+                                             />
+                                             <span>
+                                                Rp.
+                                                {product.price *
+                                                   product.cartQuantity}
+                                             </span>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 ))}
+                                 <div className="text-md my-3 flex justify-between font-semibold">
+                                    <span> Total amount : </span>
+                                    <span>Rp.{cart.cartTotalAmount}</span>
+                                 </div>
+                                 <ButtonLink onClick={checkOuts}>
+                                    <AiFillShopping size={20} />
+                                    Order Now
+                                 </ButtonLink>
                               </div>
-                              <span>
-                                Rp.{product.price * product.cartQuantity}
-                              </span>
-                            </div>
-                          </div>
+                           ) : (
+                              <Bug message="Empty Cart" />
+                           )}
                         </div>
-                      ))}
-                      <div className="text-md my-3 flex justify-between font-semibold">
-                        <span> Total amount : </span>
-                        <span>Rp.{cart.cartTotalAmount}</span>
-                      </div>
-                      <button
-                        onClick={checkOuts}
-                        className="bg-green-50 text-green-700 border border-green-300 rounded-md px-3 cursor-pointer py-1 float-right my-3 mr-2"
-                      >
-                        Order Now
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center w-11/12 bg-red-50 border border-red-400 rounded-md">
-                      Empty Cart!
-                    </div>
-                  )}
-                </div>
-              )}
-            </Menu.Item>
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
-  );
+                     )}
+                  </Menu.Item>
+               </div>
+            </Menu.Items>
+         </Transition>
+      </Menu>
+   );
 }

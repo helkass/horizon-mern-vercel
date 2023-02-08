@@ -1,5 +1,6 @@
 import { AiOutlineUser, AiOutlineShoppingCart } from "react-icons/ai";
 import { useState } from "react";
+import { ButtonIconTitleResponsive } from "../atoms/button/Button";
 
 const Sidebar = (props) => {
   const [header, setHeader] = useState("dashboard");
@@ -13,32 +14,26 @@ const Sidebar = (props) => {
                 <h1 className="text-center text-2xl capitalize">{header}</h1>
             </div>
             <main className="flex gap-7 relative">
-                <div className="sm:w-3/12 space-y-5 space-x-2 sm:flex flex-col fixed sm:relative top-5 translate-y-10 left-0">
-                  <button onClick={() => handleComponent("dashboard")}>
-                    <>
-                      <span className="flex sm:hidden bg-yellow-100 bg-opacity-50 rounded-md z-50 backdrop-blur p-2 top-0">
-                        <AiOutlineUser size={20} />
-                      </span>
-                      <button className="rounded-r-full items-center gap-2 hidden sm:block hover:bg-yellow-50 pl-7 py-2 cursor-pointer">
-                        Account
-                      </button>
-                    </>
-                  </button>
-                  <button onClick={() => handleComponent("order")}>
-                    <>
-                      <span className="flex sm:hidden bg-yellow-100 bg-opacity-50 rounded-md z-50 backdrop-blur p-2 top-0">
-                        <AiOutlineShoppingCart size={20} />
-                      </span>
-                      <button className="pl-7 py-2 cursor-pointer hidden sm:block gap-2 items-center hover:bg-yellow-50">
-                        Orders
-                      </button>
-                    </>
-                  </button>
+                <div className="sm:w-3/12 gap-4 sm:flex flex-col fixed sm:relative top-5 translate-y-10 left-0">
+                  <ButtonIconTitleResponsive
+                    title="Account"
+                    icon={AiOutlineUser}
+                    sizeIcon={22}
+                    active={header === "dashboard"}
+                    onClick={() => handleComponent("dashboard")}
+                  />
+                  <ButtonIconTitleResponsive
+                    title="orders"
+                    icon={AiOutlineShoppingCart}
+                    sizeIcon={22}
+                    active={header === "order"}
+                    onClick={() => handleComponent("order")}
+                  />
                 </div>
                 {props.children}
             </main>
         </div>
     );          
-  };            
+  };
 
   export default Sidebar;

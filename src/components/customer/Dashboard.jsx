@@ -1,11 +1,10 @@
 import defaultImage from "../../assets/images/defaultImage.jpg";
-import { AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import Container from "../Container";
+import { useParams } from "react-router-dom";
 import { DefaultInput } from "../Form";
-import Layout from "../Layout";
 import { publicRequest } from "../../requestMethods";
+import InputTwoFlex from "../molecules/inputs/InputTwoFlex";
+import InputReadDefaultValue from "../atoms/inputs/InputReadDefaultValue";
 
 const Dashboard = (props) => {
     const [customer, setCustomer] = useState({});
@@ -39,42 +38,39 @@ const Dashboard = (props) => {
             className="block text-sm cursor-pointer text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600"
           />
         </div>
-        <div className="flex gap-5">
-          <DefaultInput
-            label="fullname"
-            name="fullname"
-            defaultValue={customer.fullname}
-          />
-          <DefaultInput
-            label="phone"
-            name="phone"
-            defaultValue={customer.phone}
-          />
-        </div>
+        <InputTwoFlex
+          label1="fullname"
+          inputName1="fullname"
+          defaultValue1={customer.fullname}
+          border
+          label2="phone"
+          defaultValue2={customer.phone}
+          inputName2="phone"
+
+        />
         <DefaultInput
           name="address"
           label="address"
           defaultValue={customer.address}
         />
-        <div className="flex gap-5 w-10/12">
-          <DefaultInput
-            name="city"
-            label="city"
-            defaultValue={customer.city}
-          />
-          <DefaultInput
-            name="provice"
-            label="province"
-            defaultValue={customer.province}
-          />
-        </div>
-        <div className="flex gap-5 w-10/12">
-          <DefaultInput
-            name="email"
-            label="email"
-            defaultValue={customer.email}
-          />
-        </div>
+        <InputTwoFlex
+          label1="city"
+          inputName1="city"
+          defaultValue1={customer.city}
+          border
+          label2="province"
+          defaultValue2={customer.province}
+          inputName2="province"
+
+        />
+        <InputReadDefaultValue
+          name="email"
+          type="email"
+          defaultValue={customer.email}
+          border
+          label="email"
+          styledCustom="md:w-1/2"
+        />
         <div className="w-full font-flower flex justify-end">
           <button
             type="submit"

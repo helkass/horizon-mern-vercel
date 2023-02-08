@@ -6,6 +6,7 @@ import Bug from "../../Bug"
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { publicRequest } from "../../../requestMethods";
+import { apiUrl } from "../../../constans/app";
 
 const EditPack = () => {
     const [data, setData] = useState({});
@@ -42,7 +43,7 @@ const EditPack = () => {
     e.preventDefault();
     const newForm = new FormData(e.target);
     const pack = Object.fromEntries(newForm.entries())
-    fetch("http://localhost:5000/api/item/edit/" + urlId, {
+    fetch(`${apiUrl}/item/edit/${urlId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

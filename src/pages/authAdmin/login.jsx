@@ -1,66 +1,70 @@
-import React, { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Container from "../../components/Container";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useLogin } from "../../redux/admin/useLogin";
+import InputChange from "../../components/atoms/inputs/InputChange";
 
 function AdminLogin() {
-    const { login } = useLogin();
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    
-    const handleSubmit = async (e) => {
+   const { login } = useLogin();
+   const [email, setEmail] = useState("");
+   const [password, setPassword] = useState("");
+
+   const handleSubmit = async (e) => {
       e.preventDefault();
       await login(email, password);
-    };
+   };
 
-    return (
+   return (
       <div className="relative w-full h-screen leading-relaxed tracking-wider font-semibold text-amber-900">
-        <Container>
-          <Link to="/">
-            <button className="bg-amber-100 absolute left-2 top-2 p-2 font-normal rounded-md flex space-x-2">
-              <AiOutlineArrowLeft
-                size={20}
-                color="#78350f"
-                className="flex m-auto"
-              />
-              <p>Home</p>
-            </button>
-          </Link>
-          <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-4/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md p-12">
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="email" name="email" className="my-4">
-                Email
-              </label>
-              <input
-                name="email"
-                type="email"
-                required
-                onChange={(e) => setEmail(e.target.value)}
-                // value={email}
-                className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 mb-3 px-2 font-normal focus:outline-none"
-              />
-              <label htmlFor="password" name="password" className="my-4">
-                Password
-              </label>
-              <input
-                className="w-full border-amber-500 border drop-shadow-sm rounded-md h-8 px-2 font-normal focus:outline-none"
-                type="password"
-                name="password"
-                required
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="w-5/12 py-3 mt-7 m-auto flex justify-center bg-amber-100 rounded-lg tracking-wider"
-              >
-                Login
-              </button>
-            </form>
-          </div>
-        </Container>
+         <Container>
+            <Link to="/">
+               <button className="bg-amber-100 absolute left-2 top-2 p-2 font-normal rounded-md flex space-x-2">
+                  <AiOutlineArrowLeft
+                     size={20}
+                     color="#78350f"
+                     className="flex m-auto"
+                  />
+                  <p>Home</p>
+               </button>
+            </Link>
+            <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-6/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md">
+               <h2 className="text-2xl hover-3 text-center font-flower py-1 my-12 sm:my-0">
+                  Hello Again!
+               </h2>
+               <form
+                  onSubmit={handleSubmit}
+                  className="bg-white rounded px-8 pt-6 pb-8 mb-4">
+                  <InputChange
+                     name="email"
+                     required
+                     onChange={(e) => setEmail(e.target.value)}
+                     type="email"
+                     id="email"
+                     label="email"
+                     border
+                  />
+                  <InputChange
+                     required
+                     type="password"
+                     onChange={(e) => setPassword(e.target.value)}
+                     name="password"
+                     id="password"
+                     label="password"
+                     border
+                  />
+                  <div className="flex items-center justify-center flex-col mt-6">
+                     <button
+                        className="bg-yellow-200 hover:bg-yellow-500 tracking-wide text-yellow-600 hover:text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        type="submit">
+                        Sign In
+                     </button>
+                  </div>
+               </form>
+            </div>
+         </Container>
       </div>
-    );
-}   
+   );
+}
 
 export default AdminLogin;

@@ -2,9 +2,15 @@ import React, { useState } from "react";
 import Navbar from "../components/home/Navbar";
 import emailjs from "@emailjs/browser";
 import { AiOutlineSend } from "react-icons/ai";
+import Bug from "../components/Bug";
+import { ButtonBasic, ButtonLink } from "../components/atoms/button/Button";
+import { showAlert } from "../redux/alert/alertReducer";
+import { useDispatch } from "react-redux";
 
 const Contact = () => {
   const [alert, setAlert] = useState(false);
+  const [ error, setError ] = useState(false);
+  const dispatch = useDispatch();
   //for controlling form values
   const [values, setValues] = useState({
     fullname: "",
@@ -37,7 +43,7 @@ const Contact = () => {
           // setStatus("success");
         },
         (error) => {
-          console.log("FAILED...", error);
+          setError(true);
         }
       );
     e.target.reset();
@@ -57,6 +63,7 @@ const Contact = () => {
           </div>
           <form onSubmit={handleSubmit} className="lg:w-1/2 md:w-2/3 mx-auto">
             {alert && <Alert />}
+            { error && <Bug message="send email failed, please refresh page and try again!"/> }
             <div className="flex flex-wrap -m-2">
               <div className="p-2 w-1/2">
                 <div className="relative">
@@ -108,14 +115,8 @@ const Contact = () => {
                   ></textarea>
                 </div>
               </div>
-              <div className="p-2 w-full">
-                <button
-                  type="submit"
-                  className="flex mx-auto items-center justify-center gap-2 text-yellow-900 bg-yellow-300 bg-opacity-70 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-400 hover:bg-opacity-100 rounded text-lg"
-                >
-                  Kirim
-                  <AiOutlineSend />
-                </button>
+              <div className="p-2 w-full flex justify-center">
+                <ButtonBasic type="submit" title="Kirim" styledCustom="bg-amber-200 px-4"/>
               </div>
               <div className="p-2 w-full pt-8 mt-8 border-t border-gray-200 text-center">
                 <a>horizoncoff20@email.com</a>

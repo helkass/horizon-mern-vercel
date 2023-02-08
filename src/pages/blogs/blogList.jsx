@@ -4,16 +4,15 @@ import Layout from "../../components/Layout";
 import useFetchGet from "../../hooks/useFetchGet";
 import Loading  from "../../components/Loading";
 import Bug from "../../components/Bug"
+import Title from "../../components/atoms/title/Title";
 
 const BlogList = () => {
 
     const {data, isLoading, isError} = useFetchGet('/blog')
   return (
     <Layout>
-      <div className="w-full md:h-52 h-48 flex items-center justify-center bg-yellow-200 bg-opacity-50 text-center">
-        <div className="sm:text-3xl md:text-4xl text-yellow-900 text-2xl font-flower">
-          Tulisan kami
-        </div>
+      <div className="w-full md:h-52 h-48 flex items-center justify-center bg-gradient-to-b from-yellow-100 to-white bg-opacity-50 text-center">
+        <Title styledCustom="font-flower tracking-wide text-3xl" title="tulisan kami"/>
       </div>
       <Container>
         {isLoading ? <Loading/> : (

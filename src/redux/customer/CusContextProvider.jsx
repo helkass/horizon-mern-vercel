@@ -22,10 +22,9 @@ const CusContextProvider = ({ children }) => {
 
   useEffect(() => {
     const customer = JSON.parse(localStorage.getItem("customer"));
-    // const admin = getCookie("admin");
 
     if (customer) {
-      dispatch({ type: "LOGIN", payload: customer });
+      dispatch({ type: ("LOGIN" || "REGISTER"), payload: customer });
     }
   }, []);
 

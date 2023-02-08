@@ -1,0 +1,33 @@
+// api url
+export const apiUrl = "https://worried-mite-school-uniform.cyclic.app/api";
+// export const apiUrl = "http://localhost:5000/api";
+
+// link items for navbar
+
+export const linkItems = [
+   { href: "/", label: "Home" },
+   { href: "/galleries", label: "Gallery" },
+   { href: "/products", label: "Products" },
+   { href: "/blog", label: "Blog" },
+   { href: "/contact", label: "Contact" },
+];
+
+// bank type transafer transaction
+export const bankType = [
+   {
+      label: "Permata",
+      value: "permata",
+   },
+   {
+      label: "BNI",
+      vslue: "bni",
+   },
+   {
+      label: "BRI",
+      value: "bri",
+   },
+   {
+      label: "BCA",
+      value: "bca",
+   },
+];

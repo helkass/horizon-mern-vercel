@@ -58,3 +58,27 @@ body {
     left: -10px;
   }
 }
+.bg-one{
+background-color: #fde68a;
+background-image: 
+    radial-gradient(at 47% 33%, hsl(162.42, 0%, 100%) 0, transparent 59%), 
+    radial-gradient(at 82% 65%, hsl(37.69, 92%, 50%) 0, transparent 55%);
+}
+
+/* Glassmorphism card effect */
+.card {
+  backdrop-filter: blur(17px) saturate(200%);
+  -webkit-backdrop-filter: blur(17px) saturate(200%);
+  background-color: rgba(255, 255, 255, 0.56);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+/* background for product pages */
+.bg-gradient-custom {
+  background: rgb(253,224,71);
+background: -moz-linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+background: -webkit-linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+background: linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fde047",endColorstr="#fef9c3",GradientType=1);
+}

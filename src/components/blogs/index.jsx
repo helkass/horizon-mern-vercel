@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import defaultImage from "../../assets/images/defaultImage.jpg";
+import { ButtonBasic } from "../atoms/button/Button";
 
 const BlogItems = ({ image, title, id, date, article }) => {
   return (
@@ -26,11 +27,7 @@ const BlogItems = ({ image, title, id, date, article }) => {
           className="line-clamp-3"
           dangerouslySetInnerHTML={{ __html: article }}
         />
-        <Link to={"/blog/" + id.toString()}>
-          <button className="px-3 py-1 text-sm text-yellow-600 border border-yellow-200 bg-yellow-200 mt-6 rounded justify-start w-max">
-            Read more
-          </button>
-        </Link>
+        <ButtonBasic title="Read more" href={`/blog/${id.toString()}`} styledCustom="bg-yellow-200 px-4 my-2"/>
       </div>
     </div>
   );

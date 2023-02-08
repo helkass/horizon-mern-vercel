@@ -4,7 +4,7 @@ import { HiLocationMarker } from "react-icons/hi";
 
 const Footer = () => {
   return (
-    <footer className="bg-yellow-300 pt-12 text-sm bg-opacity-60 tracking-wider text-center">
+    <footer className="bg-yellow-300 pt-12 text-sm bg-opacity-70 tracking-wider text-center">
       <p className="text-lg mb-5 font-semibold">Horizon Coffee Shop</p>
       <p className="text-gray-600">
         Sebuah Coffee Shop yang menawarkan berbagai jenis kopi lokal dan cara

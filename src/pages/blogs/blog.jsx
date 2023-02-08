@@ -4,10 +4,9 @@ import Navbar from "../../components//home/Navbar";
 import defaultImage from "../../assets/images/defaultImage.jpg";
 import { useLocation } from "react-router-dom";
 import { publicRequest } from "../../requestMethods";
-import useFetchGet from "../../hooks/useFetchGet";
 import { useEffect, useState } from "react";
 
-const DetailBlog = ({ blog }) => {
+const DetailBlog = () => {
 
     const [data, setData] = useState({})
     const location = useLocation();
@@ -16,7 +15,7 @@ const DetailBlog = ({ blog }) => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await publicRequest.get(`/blog/${id}`);
-            setData(response.data.data)
+            setData(response.data)
         }
         fetchData();
     },[])
