@@ -1,5 +1,4 @@
 import Container from "../Container";
-import BtnToProduct from "../BtnToProduct";
 import { Disclosure } from "@headlessui/react";
 import { AiOutlineDown } from "react-icons/ai";
 import Title, { SubTitle } from "../atoms/title/Title";
@@ -10,7 +9,7 @@ const Reviews = () => {
       <Container>
          <section
             id="reviews"
-            className="flex md:text-left text-center text-amber-900 md:px-8 sm:px-3">
+            className="flex md:text-left text-center text-amber-900 md:px-8 sm:px-3 my-12">
             <div className="grid md:grid-cols-2">
                <div className="w-full py-2 hover-1">
                   <p className="mb-7 font-semibold text-xl">Questions?</p>
@@ -100,7 +99,7 @@ function Disclosures() {
 
 const TakeOut = () => {
    return (
-      <div className="text-center text-amber-900 leading-relaxed tracking-wide">
+      <div className="text-center text-amber-900 leading-relaxed tracking-wide mb-10">
          <div className="grid md:grid-cols-2 gap-5 my-14 md:text-left items-center max-h-max">
             <div className="font-semibold pl-10">
                <Title title="ambil kopimu sekarang!" />

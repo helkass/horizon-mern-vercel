@@ -8,6 +8,7 @@ import { Link, useLocation } from "react-router-dom";
 import { publicRequest } from "../../requestMethods";
 import Title from "../../components/atoms/title/Title";
 import InputChange from "../../components/atoms/inputs/InputChange";
+import { urlwhatasapp, whatsappNumber } from "../../constans/app";
 
 const OrderWa = () => {
    const [error, setError] = useState(false);
@@ -58,8 +59,6 @@ const OrderWa = () => {
             navigator.userAgent
          );
 
-      let urls = "https://web.whatsapp.com/send",
-         adminwa = "6283852742170"; //nomer admin
       // checkdevice
       if (checkedDevice) {
          let urls = "whatsapp://send";
@@ -68,7 +67,7 @@ const OrderWa = () => {
          return setError(true);
       } else {
          setError(false);
-         const blanterWA = `${urls}?phone=${adminwa}&text=DATA SAYA*%0A================%0A*Nama* : ${form.username}%0A*Companyname:${form.company}%0A *Alamat* : ${form.address}%0A*MetodePembayaran* : COD%0A%0A=============%0A*Daftar belanjar*%0A%0A*NamaProduk* : ${form.product}%0A*Medium* : ${form.medium}x${qtyM}=Rp.${subMedium}%0A*Large* : ${form.large}x${qtyL}=Rp.${subLarge}%0A*Total* : ${form.total}%0A===============%0A*OrderNote* : ${form.orderNote}%0A
+         const blanterWA = `${urlwhatasapp}?phone=${whatsappNumber}&text=DATA SAYA*%0A================%0A*Nama* : ${form.username}%0A*Companyname:${form.company}%0A *Alamat* : ${form.address}%0A*MetodePembayaran* : COD%0A%0A=============%0A*Daftar belanjar*%0A%0A*NamaProduk* : ${form.product}%0A*Medium* : ${form.medium}x${qtyM}=Rp.${subMedium}%0A*Large* : ${form.large}x${qtyL}=Rp.${subLarge}%0A*Total* : ${form.total}%0A===============%0A*OrderNote* : ${form.orderNote}%0A
     `;
          window.open(blanterWA, "_blank");
       }

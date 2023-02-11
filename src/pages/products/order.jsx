@@ -3,7 +3,6 @@ import { MdOutlinePayment } from "react-icons/md";
 import { AiOutlineExclamationCircle, AiFillShopping } from "react-icons/ai";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useCusContext } from "../../redux/customer/useCusContext";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
 import { publicRequest } from "../../requestMethods";
@@ -35,6 +34,7 @@ const Order = () => {
       payment_type: "bank_transfer",
       bank_transfer: { bank: bankSelected.toLocaleLowerCase() },
       customerId: customer._id,
+      customer_name: customer.fullname,
    };
 
    // make order id with date now
@@ -84,8 +84,6 @@ const Order = () => {
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      const data = new FormData(e.target);
-      const dt = Object.fromEntries(data.entries());
 
       setForm({
          products: carts.map((cart) => ({
@@ -101,7 +99,6 @@ const Order = () => {
 
       charge();
    };
-   console.log({ ...form, ...parameter });
 
    return (
       <Layout>

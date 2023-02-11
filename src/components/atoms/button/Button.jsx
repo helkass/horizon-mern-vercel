@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
 
 const styles = {
-   default: "hover:bg-amber-50 hover:text-amber-900 py-2 w-22 rounded",
+   default:
+      "hover:bg-amber-50 hover:text-amber-900 text-yellow-700 py-2 min-w-22 rounded",
 };
 
 export const ButtonBasic = ({ title, href, type, styledCustom, onClick }) => {

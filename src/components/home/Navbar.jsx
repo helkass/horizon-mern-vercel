@@ -54,7 +54,7 @@ const Navbar = () => {
                         )}
                      </button>
                   </div>
-                  <div className="flex-shrink-0 underline text-2xl tracking-wide font-flower font-semibold">
+                  <div className="flex-shrink-0 text-2xl tracking-wide font-flower font-semibold">
                      <Link to="/">
                         <h2>HORIZON</h2>
                      </Link>

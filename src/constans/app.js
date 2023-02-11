@@ -31,3 +31,8 @@ export const bankType = [
       value: "bca",
    },
 ];
+
+// url for order by whatsapp
+export const urlwhatasapp = "https://web.whatsapp.com/send";
+// phone number admin
+export const whatsappNumber = "6283852742170";
