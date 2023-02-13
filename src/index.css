@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Inspiration&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inria+Sans&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  scroll-behavior: smooth;
+  font-family: "Inria Sans", sans-serif;
+}
+
+/* slide left right */
+.hover-1 {
+  background: linear-gradient(#fef08a 0 0) var(--p, 0) / var(--p, 0) no-repeat;
+  transition: 0.4s, background-position 0s;
+}
+.hover-1:hover {
+  --p: 100%;
+  color: inherit;
+}
+/* slide on and top */
+.hover-3 {
+  --c: no-repeat linear-gradient(#fef08a 0 0);
+  background: var(--c) calc(-101% + var(--p, 0%)) 100%,
+    var(--c) calc(201% - var(--p, 0%)) 0;
+  background-size: 50.1% var(--p, 0.08em);
+  transition: 0.3s var(--t, 0s),
+    background-position 0.3s calc(0.3s - var(--t, 0s));
+}
+.hover-3:hover {
+  --p: 101%;
+  --t: 0.3s;
+  color: inherit;
+}
+
+/* blog page */
+.blog:nth-child(2n + 1) {
+  flex-direction: row-reverse;
+}
+
+.img:after {
+  content: "";
+  width: 100%;
+  height: 98%;
+  background-color: #fef08a;
+  position: absolute;
+  top: 20px;
+  left: -20px;
+  /* transform: translateX(-15px); */
+  z-index: -1;
+}
+
+@media (max-width: 548px) {
+  .img:after{
+    top: 15px;
+    left: -10px;
+  }
+}
+.bg-one{
+background-color: #fde68a;
+background-image: 
+    radial-gradient(at 47% 33%, hsl(162.42, 0%, 100%) 0, transparent 59%), 
+    radial-gradient(at 82% 65%, hsl(37.69, 92%, 50%) 0, transparent 55%);
+}
+
+/* Glassmorphism card effect */
+.card {
+  backdrop-filter: blur(17px) saturate(200%);
+  -webkit-backdrop-filter: blur(17px) saturate(200%);
+  background-color: rgba(255, 255, 255, 0.56);
+  border-radius: 12px;
+  border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+/* background for product pages */
+.bg-gradient-custom {
+  background: rgb(253,224,71);
+background: -moz-linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+background: -webkit-linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+background: linear-gradient(0deg, rgba(253,224,71,0.6) 0%, rgba(254,249,195,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#fde047",endColorstr="#fef9c3",GradientType=1);
+}

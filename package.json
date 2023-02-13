@@ -1,0 +1,50 @@
+{
+  "name": "client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^3.10.0",
+    "@headlessui/react": "^1.7.5",
+    "@reduxjs/toolkit": "^1.9.1",
+    "axios": "^1.2.1",
+    "crypto-js": "^4.1.1",
+    "geolib": "^3.3.3",
+    "jsonwebtoken": "^8.5.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-file-base64": "^1.0.3",
+    "react-icons": "^4.7.1",
+    "react-quill": "^2.0.0",
+    "react-redux": "^8.0.5",
+    "react-router-dom": "^6.4.5",
+    "redux-persist": "^6.0.0",
+    "universal-cookie": "^4.0.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.9",
+    "@vitejs/plugin-react": "^3.0.0",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.20",
+    "tailwindcss": "^3.2.4",
+    "vite": "^4.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helkass/horizon-mern.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helkass/horizon-mern/issues"
+  },
+  "homepage": "https://github.com/helkass/horizon-mern#readme"
+}
