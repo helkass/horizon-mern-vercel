@@ -49,18 +49,18 @@ export const ButtonLink = ({
          disabled={disabled}
          className={`${styledCustom} ${
             disabled
-               ? "cursor-not-allowed border-green-200 text-green-400"
-               : "cursor-pointer hover:bg-green-200 border-green-600"
-         }  mt-4 items-center inline-flex gap-2 justify-evenly rounded-md border bg-green-100 px-4 py-2 text-sm text-green-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2`}>
+               ? "cursor-not-allowed border-transparent bg-gray-50 text-gray-400"
+               : "cursor-pointer hover:bg-green-200 border-green-800 text-green-900"
+         }  mt-4 items-center inline-flex gap-2 justify-evenly rounded sm:rounded-md border bg-green-100 px-2 py-1.5 sm:px-4 sm:py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2`}>
          {children}
       </button>
    );
 };
 
-export const ButtonIcon = ({ children, onClick }) => {
+export const ButtonIcon = ({ children, onClick, pd }) => {
    return (
       <button
-         className="items-center flex justify-center p-2 shadow-md"
+         className={`items-center flex justify-center ${pd || "p-2"} shadow-md`}
          onClick={onClick}>
          {children}
       </button>

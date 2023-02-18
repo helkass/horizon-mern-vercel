@@ -1,25 +1,33 @@
-import React from 'react'
-import InputPrices from '../atoms/inputs/InputPrices';
-import HandleQuantity from './HandleQuantity';
+import React from "react";
+import InputPrices from "../atoms/inputs/InputPrices";
+import HandleQuantity from "./HandleQuantity";
 
-const PriceInputHandleQuantity = ({decrement, increment, size, nameInput, htmlFor, priceValue, valueQuantity }) => {
-  return (
-    <div className="flex justify-between items-center">
-        <InputPrices
+const PriceInputHandleQuantity = ({
+   decrement,
+   increment,
+   size,
+   nameInput,
+   htmlFor,
+   priceValue,
+   valueQuantity,
+}) => {
+   return (
+      <div className="flex justify-between items-center text-sm mt-2">
+         <InputPrices
             size={size}
             nameInput={nameInput}
             htmlFor={htmlFor}
             priceValue={priceValue}
-        />
-        <HandleQuantity
-          input={true}
-          nameInput={nameInput}
-          value={valueQuantity}
-          increment={increment}
-          decrement={decrement}
-        />
-  </div>
-  )
-}
+         />
+         <HandleQuantity
+            input={true}
+            nameInput={nameInput}
+            value={valueQuantity}
+            increment={increment}
+            decrement={decrement}
+         />
+      </div>
+   );
+};
 
 export default PriceInputHandleQuantity;

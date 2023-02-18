@@ -12,30 +12,27 @@ import { AiFillStar } from "react-icons/ai";
 
 const features = [
    {
-      icon: "CiCoffeeBean",
       title: "98,9%",
-      desc: "100% great coffee from horizon",
+      desc: "great coffee from horizon",
    },
    {
-      icon: "AiFillStar",
       title: "5/5",
-      desc: "Assessment from reviews",
+      desc: "assessment from reviews",
    },
    {
-      icon: "FaMoneyBillWave",
       title: "30%",
       desc: "more affordable and cheaper prices",
    },
    {
-      icon: "ImConnection",
       title: "50mb+",
-      desc: "Good connection for bussines",
+      desc: "good connection for bussines",
    },
 ];
 
-const featuresIcons = [CiCoffeeBean, AiFillStar, FaMoneyBillWave, ImConnection];
+const icons = [CiCoffeeBean, AiFillStar, FaMoneyBillWave, ImConnection];
 
 const Features = () => {
+   let IconFeature = null;
    return (
       <>
          <Section
@@ -82,14 +79,21 @@ const Features = () => {
          <Container>
             <div className="flex gap-3 bg-yellow-50 justify-evenly py-12 rounded-md overflow-auto relative flex-nowrap pl-72 sm:pl-0">
                {features.map((feature, i) => {
-                  const icons = featuresIcons[i];
+                  IconFeature = icons[i];
                   return (
-                     <FeaturesCard
-                        key={feature.title}
-                        title={feature.title}
-                        icon={icons}
-                        desc={feature.desc}
-                     />
+                     <div
+                        key={i}
+                        className="text-left text-yellow-700 flex flex-col md:p-5 p-3 rounded-xl bg-white gap-3 w-56 justify-between min-w-[160px]">
+                        <IconFeature size={30} />
+                        <p className="lg:text-3xl text-2xl">{feature.title}</p>
+                        <p className="text-black/50">{feature.desc}</p>
+                     </div>
+                     // <FeaturesCard
+                     //    key={feature.title}
+                     //    title={feature.title}
+                     //    icon={icons}
+                     //    desc={feature.desc}
+                     // />
                   );
                })}
             </div>

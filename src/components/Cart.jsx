@@ -51,7 +51,7 @@ export default function Cart() {
             leave="transition ease-in duration-75"
             leaveFrom="transform opacity-100 scale-100"
             leaveTo="transform opacity-0 scale-95">
-            <Menu.Items className="absolute md:w-[620px] sm:w-[450px] w-[350px] right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white/50 backdrop-blur-60 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+            <Menu.Items className="absolute md:w-[620px] sm:w-[450px] w-[350px] right-0 mt-2 origin-top-right divide-y divide-gray-100 rounded-md bg-white/90 backdrop-blur-70 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                <div className="px-1 py-1 ">
                   <Menu.Item>
                      {({ active }) => (
@@ -65,14 +65,14 @@ export default function Cart() {
                                     <div
                                        key={i}
                                        className="flex w-full items-center gap-2">
-                                       <div className="w-32 flex justify-center items-center">
+                                       <div className="w-32 flex justify-center items-center bg-yellow-50 p-2">
                                           <img
                                              src={product.img || defaultImage}
                                              alt={product.title}
-                                             className="object-cover h-28"
+                                             className="object-cover max-h-28"
                                           />
                                        </div>
-                                       <div className="w-full">
+                                       <div className="w-full gap-y-2 flex flex-col">
                                           <div className="flex justify-between">
                                              <p className="md:text-xl w-max mb-2 lowercase bg-yellow-100 rounded-md sm:px-2 px-1">
                                                 {product.title}
@@ -81,11 +81,11 @@ export default function Cart() {
                                                 onClick={() =>
                                                    handleRemove(product)
                                                 }
-                                                className="bg-red-100 border border-red-400 items-center flex justify-center text-red-700 rounded md:h-7 md:w-7 w-5 h-5">
+                                                className="bg-red-100 border border-red-400 items-center flex justify-center text-red-700 rounded md:h-7 md:w-7 w-6 h-6">
                                                 <AiFillDelete />
                                              </button>
                                           </div>
-                                          <div className="flex justify-between">
+                                          <div className="flex justify-between items-center">
                                              <p>Rp.{product.price}</p>
                                              <HandleQuantity
                                                 value={product.cartQuantity}
@@ -109,7 +109,9 @@ export default function Cart() {
                                     <span> Total amount : </span>
                                     <span>Rp.{cart.cartTotalAmount}</span>
                                  </div>
-                                 <ButtonLink onClick={checkOuts}>
+                                 <ButtonLink
+                                    onClick={checkOuts}
+                                    styledCustom="">
                                     <AiFillShopping size={20} />
                                     Order Now
                                  </ButtonLink>

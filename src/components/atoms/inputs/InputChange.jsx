@@ -32,7 +32,7 @@ const InputChange = ({
                id={name}
                required={required}
                type={type}
-               className={`border border-yellow-300 text-yellow-800 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 dark:bg-yellow-700 dark:border-yellow-600 dark:placeholder-yellow-400 dark:text-white dark:focus:ring-yellow-500 dark:focus:border-yellow-500" ${
+               className={`border border-yellow-300 text-yellow-800 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-full p-2.5 " ${
                   border && "border border-yellow-300"
                } ${styledCustom}`}
             />
