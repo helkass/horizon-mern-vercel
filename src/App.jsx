@@ -9,7 +9,7 @@ import Galleries from "./pages/galleries";
 import Home from "./pages/home";
 import Blog from "./pages/blogs/blog";
 import Contact from "./pages/contact";
-import Login from "./pages/login";
+import Login from "./pages/customer/login";
 import Products from "./pages/products";
 import AdminLogin from "./pages/authAdmin/login";
 import Admin from "./pages/admin";
@@ -21,7 +21,7 @@ import AddBlog from "./components/admin/actions/AddBlog";
 import Customer from "./pages/customer";
 
 import { useAdminContext } from "./redux/admin/useAdminContext";
-import Register from "./pages/register";
+import Register from "./pages/customer/register";
 import BlankPage from "./components/templates/BlankPage";
 import { useCusContext } from "./redux/customer/useCusContext";
 
@@ -34,11 +34,15 @@ function App() {
       <Router>
          <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/galleries" element={<Galleries />} />
+            <Route path="/galleries" element={<Galleries />} exact />
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:id" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="*" element={<BlankPage message="Wrong pages" />} />
+            <Route
+               path="/*"
+               element={<BlankPage message="Wrong pages" />}
+               exact
+            />
             <Route path="/products" element={<Products />} />
             <Route
                path="/order"
@@ -53,7 +57,7 @@ function App() {
             <Route path="/products/orderwa" element={<OrderWa />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/:id" element={<Customer />} />
+            <Route path="/customer/:id" element={<Customer />} />
 
             {/* admin */}
             <Route

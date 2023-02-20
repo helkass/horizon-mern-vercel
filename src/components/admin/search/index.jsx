@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import { publicRequest } from "../../../requestMethods";
 import { AbsoluteAlert } from "../../atoms/alerts/Alert";
+import { ButtonBasic } from "../../atoms/button/Button";
 
 const Search = () => {
    const [customerId, setCustomerId] = useState("");
    const [customer, setCustomer] = useState({});
    const [error, setError] = useState(false);
-
-   console.log(customer.__proto__);
 
    const [productId, setProductId] = useState("");
    const [product, setProduct] = useState({});
@@ -29,13 +28,23 @@ const Search = () => {
    const searchProduct = async () => {
       const response = await publicRequest.get(`/item/${productId}`);
       setProduct(response.data);
+      console.log(response.data);
+   };
+
+   const handleRefresh = () => {
+      // reset
+      const reset = {};
+      setCustomer(reset) && setProduct(reset);
    };
    return (
-      <section className="grid">
+      <section className="grid gap-2">
          {/* error req alert */}
          <AbsoluteAlert isShow={error} error message="Something went wrong!" />
          {/* customer */}
-         <label htmlFor="customer">Search by Customer Id</label>
+         <div className="flex justify-between">
+            <label htmlFor="customer">Search by Customer Id</label>
+            <ButtonBasic title="Refresh" onClick={() => handleRefresh()} />
+         </div>
          <div className="flex gap-2">
             <input
                name="customer"
@@ -50,7 +59,7 @@ const Search = () => {
             </button>
          </div>
          {/* customer data */}
-         {customer !== null ? (
+         {customer !== null && (
             <div className="w-full my-2 px-3 grid space-y-3 tracking-wide">
                <p>
                   fullname :{" "}
@@ -76,8 +85,6 @@ const Search = () => {
                   <span className="text-green-500">{customer.province}</span>
                </p>
             </div>
-         ) : (
-            <></>
          )}
          {/* end customer */}
          {/* products */}

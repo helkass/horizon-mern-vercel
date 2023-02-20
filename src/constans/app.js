@@ -1,6 +1,6 @@
 // api url
-export const apiUrl = "https://worried-mite-school-uniform.cyclic.app/api";
-// export const apiUrl = "http://localhost:5000/api";
+// export const apiUrl = "https://worried-mite-school-uniform.cyclic.app/api";
+export const apiUrl = "http://localhost:5000/api";
 
 // link items for navbar
 

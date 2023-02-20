@@ -1,13 +1,13 @@
 // pages for customer
 import { Link } from "react-router-dom";
-import React, { useState, useCallback } from "react";
-import Layout from "../components/Layout";
-import logo from "../assets/images/login-logo.png";
-import { useLogin } from "../redux/customer/useLogin";
+import React, { useState } from "react";
+import Layout from "../../components/Layout";
+import logo from "../../assets/images/login-logo.png";
+import { useLogin } from "../../redux/customer/useLogin";
 import { useSelector } from "react-redux";
-import Success from "../components/Success";
-import LoginForm from "../components/organism/LoginForm";
-import InputChange from "../components/atoms/inputs/InputChange";
+import Success from "../../components/Success";
+import InputChange from "../../components/atoms/inputs/InputChange";
+import Alert from "../../components/atoms/alerts/Alert";
 
 const Login = () => {
    const [email, setEmail] = useState("");
@@ -32,7 +32,16 @@ const Login = () => {
                   <h2 className="text-2xl hover-3 text-center font-flower py-1 my-12 sm:my-0">
                      Hello Again!
                   </h2>
-                  {alert.alert.status && <Success message="Login success" />}
+                  {alert.status && alert.type === "success" ? (
+                     <Success message={alert.message} />
+                  ) : (
+                     alert.type === "error" && (
+                        <Alert
+                           error
+                           message={alert.message || "unauthorized"}
+                        />
+                     )
+                  )}
                   <form
                      onSubmit={handleSubmit}
                      className="bg-white rounded px-8 pt-6 pb-8 mb-4">
