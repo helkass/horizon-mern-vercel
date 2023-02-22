@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { publicRequest } from "../../requestMethods";
 import { showAlert } from "../alert/alertReducer";
 import { useDispatch } from "react-redux";
+import { useState } from "react";
 
 const SECRET = import.meta.env.SECRET;
 
@@ -11,7 +12,10 @@ export const useLogin = () => {
    const { dispatch } = useCusContext();
    const dis = useDispatch();
    const navigate = useNavigate();
+   const [isLoading, setLoading] = useState(false);
+
    const login = async (email, password) => {
+      isLoading(true);
       const accessToken = CryptoJS.AES.decrypt(password, email, SECRET);
       const response = await publicRequest
          .post(
@@ -27,6 +31,7 @@ export const useLogin = () => {
          .then((res) => res)
          .catch(
             (error) =>
+               setLoading(false) &&
                dis(
                   showAlert({
                      message: error.response.data.message,
@@ -45,13 +50,13 @@ export const useLogin = () => {
          dispatch({ type: "LOGIN", payload: response.data });
          // set true
          dis(showAlert({ message: "login success", type: "success" }));
-
          setTimeout(() => {
             //set false again
+            setLoading(false);
             dis(showAlert());
             navigate("/products");
          }, 1500);
       }
    };
-   return { login };
+   return { login, isLoading };
 };

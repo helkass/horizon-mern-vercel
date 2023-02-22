@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import Alert from "../../atoms/alerts/Alert";
 
 // fake
-import defaultImage from "../../../assets/images/defaultImage.jpg";
+import horizon_pack_image_default from "../../../assets/images/horizon-pack-default.png";
 import { deleteAction } from "../../../redux/toggleReducer";
 import { publicRequest } from "../../../requestMethods";
 
@@ -103,7 +103,7 @@ function TableBody({ _id, title, img, desc, price, size }) {
             <div className="bg-amber-100 rounded py-1 w-2/12">
                <div className="objeect-cover flex mx-auto self-center">
                   <img
-                     src={img || defaultImage}
+                     src={img || horizon_pack_image_default}
                      alt={title || "unknown"}
                      className="mx-auto w-16 h-16 object-cover"
                   />

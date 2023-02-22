@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { publicRequest } from "../../../requestMethods";
 import Alert from "../../atoms/alerts/Alert";
+import Loading from "../../Loading";
 import Success from "../../Success";
 
 // show all product from DB
@@ -14,6 +15,7 @@ const AddPack = () => {
    const [price, setPrice] = useState(0);
    const [size, setSize] = useState(0);
    const [img, setImg] = useState("");
+   const [isLoading, setLoading] = useState(false);
    const type = "pack";
 
    // handle convert it in base64
@@ -32,6 +34,7 @@ const AddPack = () => {
    };
 
    const handleSubmit = async (e) => {
+      setLoading(true);
       e.preventDefault();
       try {
          const response = await publicRequest.post("/item/create", {
@@ -48,17 +51,21 @@ const AddPack = () => {
             setImg("");
             setSize(0);
             setPrice(0);
-
+            setLoading(false);
             setSuccess(true);
          }
          console.log(response);
       } catch (error) {
          error && setError(true);
          console.log(error);
+         setLoading(false);
       }
    };
    return (
       <form className="grid gap-2 my-3 w-11/12">
+         {isLoading && (
+            <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+         )}
          <div className="flex justify-center item-center">
             {success && (
                <Success message="data berhasil ditambahkan, refresh page untuk melihat hasil" />

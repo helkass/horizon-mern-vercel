@@ -10,7 +10,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import useOrders from "../../hooks/useOrders/useOrders";
 import { ButtonBasic } from "../atoms/button/Button";
 import { replaceLongChar } from "../../functions/formater/longString";
-import { AbsoluteAlert } from "../atoms/alerts/Alert";
+import Alert, { AbsoluteAlert } from "../atoms/alerts/Alert";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 
 function Main() {
@@ -131,58 +131,62 @@ function HistoryTable() {
                   action
                </span>
             </div>
+            {isError && <Alert error message="error data" />}
             {/* main ordering data */}
-            {isLoading && <Loading />}
-            {data.map(
-               (order) =>
-                  order.response_midtrans.transaction_status ===
-                     "settlement" && (
-                     <div
-                        key={order._id}
-                        className={`flex gap-1 border-b my-1 md:text-md sm:text-sm text-xs ${
-                           order.status === "accepted" &&
-                           "bg-green-100 text-green-700"
-                        }`}>
-                        <span className="py-1 pl-2 w-3/12 rounded">
-                           {replaceLongChar(order._id)}
-                        </span>
-                        <div className="flex py-1 pl-2 w-3/12 rounded justify-between">
-                           <span>
-                              {showID
-                                 ? replaceLongChar(order.customerId)
-                                 : order.customer_name || "not set yet"}
+            {isLoading ? (
+               <Loading />
+            ) : (
+               data.map(
+                  (order) =>
+                     order.response_midtrans.transaction_status ===
+                        "settlement" && (
+                        <div
+                           key={order._id}
+                           className={`flex gap-1 border-b my-1 md:text-md sm:text-sm text-xs ${
+                              order.status === "accepted" &&
+                              "bg-green-100 text-green-700"
+                           }`}>
+                           <span className="py-1 pl-2 w-3/12 rounded">
+                              {replaceLongChar(order._id)}
                            </span>
-                           {showID && (
-                              <button
-                                 className="bg-inherit"
-                                 onClick={() =>
-                                    copyToClipboard(order.customerId)
-                                 }>
-                                 <MdContentCopy size={18} />
-                              </button>
-                           )}
+                           <div className="flex py-1 pl-2 w-3/12 rounded justify-between">
+                              <span>
+                                 {showID
+                                    ? replaceLongChar(order.customerId)
+                                    : order.customer_name || "not set yet"}
+                              </span>
+                              {showID && (
+                                 <button
+                                    className="bg-inherit"
+                                    onClick={() =>
+                                       copyToClipboard(order.customerId)
+                                    }>
+                                    <MdContentCopy size={18} />
+                                 </button>
+                              )}
+                           </div>
+                           <div className="text-center py-1 flex-1  w-full rounded flex flex-col">
+                              {order.products.map((product) => (
+                                 <div
+                                    className="flex gap-2 w-full justify-center"
+                                    key={product.productId}>
+                                    <span>{product.product_name}</span>
+                                    <span>x{product.quantity}</span>
+                                 </div>
+                              ))}
+                           </div>
+                           <span className="text-center py-1 w-2/12 rounded">
+                              {currencyFormater(
+                                 order.response_midtrans.gross_amount
+                              )}
+                           </span>
+                           <Actions
+                              nonProcessed={order.status !== "accepted"}
+                              order_id={order._id}
+                           />
                         </div>
-                        <div className="text-center py-1 flex-1  w-full rounded flex flex-col">
-                           {order.products.map((product) => (
-                              <div
-                                 className="flex gap-2 w-full justify-center"
-                                 key={product.productId}>
-                                 <span>{product.product_name}</span>
-                                 <span>x{product.quantity}</span>
-                              </div>
-                           ))}
-                        </div>
-                        <span className="text-center py-1 w-2/12 rounded">
-                           {currencyFormater(
-                              order.response_midtrans.gross_amount
-                           )}
-                        </span>
-                        <Actions
-                           nonProcessed={order.status !== "accepted"}
-                           order_id={order._id}
-                        />
-                     </div>
-                  )
+                     )
+               )
             )}
          </section>
       </>

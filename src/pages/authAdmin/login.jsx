@@ -19,10 +19,8 @@ function AdminLogin() {
       <Layout>
          <main className="min-h-screen flex justify-center items-center">
             <Container>
-               {isLoading ? (
+               {isLoading && (
                   <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
-               ) : (
-                  <></>
                )}
                <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-6/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md">
                   <h2 className="text-2xl hover-3 text-center font-flower py-1 my-12 sm:my-0">

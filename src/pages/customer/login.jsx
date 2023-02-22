@@ -8,11 +8,12 @@ import { useSelector } from "react-redux";
 import Success from "../../components/Success";
 import InputChange from "../../components/atoms/inputs/InputChange";
 import Alert from "../../components/atoms/alerts/Alert";
+import Loading from "../../components/Loading";
 
 const Login = () => {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
-   const { login } = useLogin();
+   const { login, isLoading } = useLogin();
    const alert = useSelector((state) => state.alert);
 
    const handleSubmit = async (e) => {
@@ -22,6 +23,9 @@ const Login = () => {
    return (
       <Layout>
          <main className="sm:min-h-screen flex sm:flex-row flex-col pt-18">
+            {isLoading && (
+               <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+            )}
             <div className="sm:w-1/2 relative bg-yellow-100 sm:min-h-[568px] sm:flex hidden justify-center items-center">
                <div className="bg-yellow-400 bg-opacity-70 rounded-t-full">
                   <img src={logo} alt="img" />
