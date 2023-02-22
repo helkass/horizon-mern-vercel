@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { publicRequest } from "../../../requestMethods";
@@ -17,6 +18,13 @@ const AddPack = () => {
    const [img, setImg] = useState("");
    const [isLoading, setLoading] = useState(false);
    const type = "pack";
+   const [token, setToken] = useState("");
+
+   useEffect(() => {
+      const adminToken = JSON.parse(localStorage.getItem("admin"));
+
+      setToken(adminToken?.accessToken);
+   }, []);
 
    // handle convert it in base64
    const handleImage = (e) => {
@@ -37,14 +45,23 @@ const AddPack = () => {
       setLoading(true);
       e.preventDefault();
       try {
-         const response = await publicRequest.post("/item/create", {
-            title,
-            desc,
-            size,
-            img,
-            price,
-            type,
-         });
+         const response = await publicRequest.post(
+            "/item/create",
+            {
+               title,
+               desc,
+               size,
+               img,
+               price,
+               type,
+            },
+            {
+               headers: {
+                  "Content-Type": "applications/json",
+                  token: `Bearer ${token}`,
+               },
+            }
+         );
          if (response.status === 201) {
             setTitle("");
             setDesc("");
