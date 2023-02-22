@@ -5,7 +5,7 @@ import Loading from "../../components/Loading";
 import { ImageBasic } from "../../components/atoms/image/Image";
 
 //  static file
-import defaultImage from "../../assets/images/defaultImage.jpg";
+import defaultImage from "../../assets/images/horizon-pack-default.png";
 
 // icons
 import { BsWhatsapp, BsFillEyeFill } from "react-icons/bs";
@@ -128,16 +128,20 @@ function BottleCups(props) {
    return (
       <>
          <div className="relative w-full text-amber-900 rounded card px-1 py-2 sm:max-h-full max-h-96">
-            <ImageBasic
-               src={props.img || defaultImage}
-               alt={props.title}
-               styledCustom="h-56 object-contain"
-            />
-            <div className="px-1 block leading-relaxed text-amber-900 m-1">
-               <p>{props.title || "unknown"}</p>
-               <p className="text-xs font-normal my-2">
-                  Rp.{props.medium} - Rp.{props.large}
-               </p>
+            <div className="flex flex-col gap-y-1">
+               <ImageBasic
+                  src={props.img || defaultImage}
+                  alt={props.title}
+                  styledCustom="h-56 object-contain"
+               />
+               <div className="px-2">
+                  <p>{props.title || "unknown"}</p>
+                  <p className="text-xs font-normal my-2">
+                     Rp.{props.medium} - Rp.{props.large}
+                  </p>
+               </div>
+            </div>
+            <div className="px-2">
                <button
                   onClick={() => handleClick(props)}
                   className="text-sm bg-amber-300 rounded mt-2 py-2 text-center w-full">
@@ -231,26 +235,28 @@ function CoffeePacks(props) {
    };
    return (
       <>
-         <div className="relative w-full card mb-12 px-1 py-2 sm:max-h-full max-h-96">
-            <ImageBasic
-               src={props.img || defaultImage}
-               alt={props.title}
-               styledCustom="h-56 object-contain"
-            />
-            <div className="px-1 block relative leading-relaxed tracking-wide text-amber-900 mt-1">
-               <p>{props.title || "unknown"}</p>
-               <p className="text-xs font-normal my-2">size : 500 gr</p>
-               <div className="flex text-sm justify-between sm:justify-evenly">
-                  <ButtonLink onClick={() => handleClick(props)}>
-                     <BsFillEyeFill />
-                     Preview
-                  </ButtonLink>
-                  {/* add cart product */}
-                  <ButtonLink onClick={() => handleAdd(props)}>
-                     <FaCartPlus />
-                     Add
-                  </ButtonLink>
+         <div className="relative flex flex-col text-yellow-800 capitalize tracking-wide  justify-between w-full card mb-12 px-1 py-2 sm:max-h-full max-h-96">
+            <div className="gap-y-1 flex flex-col">
+               <ImageBasic
+                  src={props.img || defaultImage}
+                  alt={props.title}
+                  styledCustom="h-56 object-contain"
+               />
+               <div className="px-2">
+                  <p>{props.title || "unknown"}</p>
+                  <p className="text-xs font-normal my-2">size : 500 gr</p>
                </div>
+            </div>
+            <div className="flex text-sm justify-between sm:justify-evenly flex-end">
+               <ButtonLink onClick={() => handleClick(props)}>
+                  <BsFillEyeFill />
+                  Preview
+               </ButtonLink>
+               {/* add cart product */}
+               <ButtonLink onClick={() => handleAdd(props)}>
+                  <FaCartPlus />
+                  Add
+               </ButtonLink>
             </div>
          </div>
          {/* modal content for detailing */}

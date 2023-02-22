@@ -57,7 +57,6 @@ const AddPack = () => {
          console.log(response);
       } catch (error) {
          error && setError(true);
-         console.log(error);
          setLoading(false);
       }
    };

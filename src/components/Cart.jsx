@@ -1,5 +1,5 @@
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { BsFillCartFill } from "react-icons/bs";
 import { AiFillShopping } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
@@ -10,11 +10,11 @@ import defaultImage from "../assets/images/defaultImage.jpg";
 import { ButtonLink } from "./atoms/button/Button";
 import HandleQuantity from "./molecules/HandleQuantity";
 import Bug from "./Bug";
+import { useCusContext } from "../redux/customer/useCusContext";
 
 export default function Cart() {
    const dispatch = useDispatch();
    const navigate = useNavigate();
-
    const cart = useSelector((state) => state.cart);
 
    useEffect(() => {

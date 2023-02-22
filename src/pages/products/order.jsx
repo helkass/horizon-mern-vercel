@@ -49,6 +49,10 @@ const Order = () => {
    useEffect(() => {
       const getCarts = JSON.parse(localStorage.getItem("cart"));
       const getCustomer = JSON.parse(localStorage.getItem("customer"));
+
+      if (!getCustomer || getCustomer === undefined || null) {
+         navigate("/login");
+      }
       setCustomer(getCustomer);
       setCarts(getCarts);
    }, []);
@@ -67,8 +71,6 @@ const Order = () => {
             },
          }
       );
-
-      console.log("response", response);
 
       if (response.status === 201) {
          setSuccess(true);

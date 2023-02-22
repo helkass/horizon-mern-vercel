@@ -28,7 +28,7 @@ import { useCusContext } from "./redux/customer/useCusContext";
 function App() {
    const { admin } = useAdminContext();
    const { customer } = useCusContext();
-   const customerLocal = localStorage.getItem("customer");
+   const customerLocal = JSON.parse(localStorage.getItem("customer"));
 
    return (
       <Router>
@@ -50,7 +50,7 @@ function App() {
                   customer || customerLocal ? (
                      <Order />
                   ) : (
-                     <Navigate to={<Login />} replace />
+                     <Navigate to="/login" replace={true} />
                   )
                }
             />
