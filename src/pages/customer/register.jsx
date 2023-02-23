@@ -34,7 +34,7 @@ const Register = () => {
                   <h2 className="text-2xl text-center font-flower uppercase my-4 sm:my-2">
                      Welcome <span className="text-yellow-600">!</span>
                   </h2>
-                  {alert.Success && alert.type === "success" ? (
+                  {alert.status && alert.type === "success" ? (
                      <Success message={alert.message} />
                   ) : (
                      alert.type === "error" && (
