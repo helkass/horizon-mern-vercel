@@ -36,6 +36,7 @@ export const useRegister = () => {
          .catch(
             (error) =>
                setLoading(false) &&
+               console.log(error) &&
                dis(
                   showAlert({
                      message: error.response.data.message,
