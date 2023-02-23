@@ -51,8 +51,8 @@ export const useRegister = () => {
          localStorage.setItem("customer", JSON.stringify(customer.data));
          // update the auth context
          dispatch({ type: "REGISTER", payload: customer.data });
-         dis(showAlert({ message: "Register success", type: "success" }));
          setLoading(false);
+         dis(showAlert({ message: "Register success", type: "success" }));
          setTimeout(() => {
             navigate("/products");
          }, 1500);

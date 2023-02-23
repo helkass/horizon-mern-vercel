@@ -15,7 +15,7 @@ export const useLogin = () => {
    const [isLoading, setLoading] = useState(false);
 
    const login = async (email, password) => {
-      isLoading(true);
+      setLoading(true);
       const accessToken = CryptoJS.AES.decrypt(password, email, SECRET);
       const response = await publicRequest
          .post(
