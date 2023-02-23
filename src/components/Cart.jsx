@@ -6,11 +6,10 @@ import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { add, decreaseCart, getTotals, remove } from "../redux/cartReducer";
 import { useNavigate } from "react-router-dom";
-import defaultImage from "../assets/images/defaultImage.jpg";
+import defaultImage from "../assets/images/horizon-pack-default.png";
 import { ButtonLink } from "./atoms/button/Button";
 import HandleQuantity from "./molecules/HandleQuantity";
 import Bug from "./Bug";
-import { useCusContext } from "../redux/customer/useCusContext";
 
 export default function Cart() {
    const dispatch = useDispatch();

@@ -14,8 +14,10 @@ import InputReadDefaultValue from "../../components/atoms/inputs/InputReadDefaul
 import InputTwoFlex from "../../components/molecules/inputs/InputTwoFlex";
 import { removeCarts } from "../../redux/cartReducer";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
+import defaultImage from "../../assets/images/horizon-pack-default.png";
 
 import { bankType } from "../../constans/app";
+import Loading from "../../components/Loading";
 
 const Order = () => {
    const cart = useSelector((state) => state.cart);
@@ -25,6 +27,7 @@ const Order = () => {
    const navigate = useNavigate();
    const [customer, setCustomer] = useState({});
    const dispatch = useDispatch();
+   const [isLoading, setLoading] = useState(false);
 
    // bank type selected
    const [bankSelected, setBankSelected] = useState("permata");
@@ -73,6 +76,7 @@ const Order = () => {
       );
 
       if (response.status === 201) {
+         setLoading(false);
          setSuccess(true);
          // redirect to csustomer page after 2s
          setTimeout(() => {
@@ -80,13 +84,14 @@ const Order = () => {
             navigate("/products");
          }, 1500);
       } else {
+         setLoading(false);
          setError(true);
       }
    }
 
    const handleSubmit = (e) => {
       e.preventDefault();
-
+      setLoading(true);
       setForm({
          products: carts.map((cart) => ({
             productId: cart._id,
@@ -105,6 +110,9 @@ const Order = () => {
    return (
       <Layout>
          <main className="mt-20">
+            {isLoading && (
+               <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+            )}
             <h2 className="font-flower text-xl text-center my-6">
                One more Step
             </h2>
@@ -119,7 +127,7 @@ const Order = () => {
                         {carts?.map((data, i) => (
                            <div key={i} className="flex gap-2">
                               <ImageBasic
-                                 src={data.img}
+                                 src={data.img || defaultImage}
                                  alt={data.title}
                                  styledCustom="w-1/4"
                               />
