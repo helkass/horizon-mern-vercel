@@ -33,7 +33,7 @@ function App() {
    return (
       <Router>
          <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home />} exact />
             <Route path="/galleries" element={<Galleries />} exact />
             <Route path="/blog" element={<BlogList />} />
             <Route path="/blog/:id" element={<Blog />} />
