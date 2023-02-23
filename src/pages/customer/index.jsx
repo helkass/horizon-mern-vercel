@@ -13,10 +13,12 @@ const Customer = () => {
    return (
       <Layout>
          <Container>
-            <Sidebar component={getComponent}>
-               {(component === "dashboard" && <Dashboard />) ||
-                  (component === "order" && <Order />)}
-            </Sidebar>
+            <div className="min-h-screeen py-16 sm:py-20">
+               <Sidebar component={getComponent}>
+                  {(component === "dashboard" && <Dashboard />) ||
+                     (component === "order" && <Order />)}
+               </Sidebar>
+            </div>
          </Container>
       </Layout>
    );

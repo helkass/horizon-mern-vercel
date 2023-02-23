@@ -79,8 +79,8 @@ export const ButtonIconTitleResponsive = ({
    return (
       <button
          onClick={onClick}
-         className={`flex justify-center sm:py-2 sm:px-3 items-center cursor-pointer hover:bg-yellow-50 rounded ${styledCustom} ${
-            active && "bg-yellow-400 text-white"
+         className={`flex justify-center focus:bg-yellow-400 focus:text-yellow-800 sm:py-2 sm:px-3 items-center cursor-pointer hover:bg-yellow-50 rounded ${styledCustom} ${
+            active && "bg-yellow-400 text-yellow-800"
          }`}>
          <>
             <span className="flex sm:hidden z-50 p-3 top-0">
