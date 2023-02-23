@@ -54,7 +54,7 @@ function Order() {
       setIsOpen(true);
    }
    return (
-      <main className="w-full">
+      <main className="w-full min-h-screen">
          {isLoading ? (
             <Loading />
          ) : (

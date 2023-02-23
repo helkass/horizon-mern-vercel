@@ -5,10 +5,16 @@ import { DefaultInput } from "../Form";
 import { publicRequest } from "../../requestMethods";
 import InputTwoFlex from "../molecules/inputs/InputTwoFlex";
 import InputReadDefaultValue from "../atoms/inputs/InputReadDefaultValue";
+import Loading from "../Loading";
+import { AbsoluteAlert } from "../atoms/alerts/Alert";
 
 const Dashboard = (props) => {
    const [customer, setCustomer] = useState({});
    const { id } = useParams();
+   const [isLoading, setLoading] = useState(false);
+   const [success, setSuccess] = useState(false);
+   const [error, setError] = useState(false);
+   const [showAlert, setShowAlert] = useState(false);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -18,67 +24,97 @@ const Dashboard = (props) => {
       };
       fetchData();
    }, []);
+
+   // update customer all data with PUT method
+   const updateCustomer = async (data) => {
+      await publicRequest
+         .put(`/customer/update/${id}`, data)
+         .then((res) => console.log(res) && setSuccess(true))
+         .catch((err) => console.log(err.message) && setError(true));
+
+      setShowAlert(true);
+
+      setTimeout(() => {
+         setShowAlert(false);
+         setLoading(false);
+         setError(false);
+      }, 1500);
+   };
    const handleUpdate = async (e) => {
+      setLoading(true);
       e.preventDefault();
       const form = new FormData(e.target);
       const data = Object.fromEntries(form.entries());
-      console.log(data);
+
+      updateCustomer(data);
    };
    return (
-      <form onSubmit={handleUpdate} className="sm:w-9/12 px-5 space-y-2">
-         <div className="flex gap-3 items-center">
-            <div className="w-[90px] h-[90px] rounded-full">
-               <img
-                  src={customer.img || defaultImage}
-                  className="rounded-full"
-                  alt={`photo ${customer.fullname}`}
-               />
+      <>
+         <AbsoluteAlert
+            error={error}
+            success={success}
+            isShow={showAlert}
+            mesage={
+               error
+                  ? "update failed"
+                  : (success && "update success") || "message didn't working!"
+            }
+         />
+         {isLoading && (
+            <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+         )}
+         <form
+            onSubmit={handleUpdate}
+            className="sm:w-9/12 px-5 space-y-2 min-h-screen">
+            <div className="flex gap-3 items-center">
+               <div className="w-[90px] h-[90px] rounded-full">
+                  <img
+                     src={customer.img || defaultImage}
+                     className="rounded-full"
+                     alt={`photo ${customer.fullname}`}
+                  />
+               </div>
             </div>
-            <input
-               type="file"
-               name="image"
-               className="block text-sm cursor-pointer text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600"
+            <InputTwoFlex
+               label1="fullname"
+               inputName1="fullname"
+               defaultValue1={customer.fullname}
+               border
+               label2="phone"
+               defaultValue2={customer.phone}
+               inputName2="phone"
             />
-         </div>
-         <InputTwoFlex
-            label1="fullname"
-            inputName1="fullname"
-            defaultValue1={customer.fullname}
-            border
-            label2="phone"
-            defaultValue2={customer.phone}
-            inputName2="phone"
-         />
-         <DefaultInput
-            name="address"
-            label="address"
-            defaultValue={customer.address}
-         />
-         <InputTwoFlex
-            label1="city"
-            inputName1="city"
-            defaultValue1={customer.city}
-            border
-            label2="province"
-            defaultValue2={customer.province}
-            inputName2="province"
-         />
-         <InputReadDefaultValue
-            name="email"
-            type="email"
-            defaultValue={customer.email}
-            border
-            label="email"
-            styledCustom="md:w-1/2"
-         />
-         <div className="w-full font-flower flex justify-end">
-            <button
-               type="submit"
-               className="px-4 py-2 rounded-md bg-yellow-100 min-w-[100px] my-7">
-               Save
-            </button>
-         </div>
-      </form>
+            <DefaultInput
+               name="address"
+               label="address"
+               defaultValue={customer.address}
+            />
+            <InputTwoFlex
+               label1="city"
+               inputName1="city"
+               defaultValue1={customer.city}
+               border
+               label2="province"
+               defaultValue2={customer.province}
+               inputName2="province"
+            />
+            <InputReadDefaultValue
+               name="email"
+               type="email"
+               defaultValue={customer.email}
+               border
+               label="email"
+               styledCustom="md:w-1/2"
+            />
+            <div className="w-full font-flower flex justify-end">
+               <button
+                  type="submit"
+                  className="px-4 py-2 rounded-md bg-yellow-100 min-w-[100px] my-7">
+                  Save
+               </button>
+            </div>
+         </form>
+      </>
    );
 };
 
