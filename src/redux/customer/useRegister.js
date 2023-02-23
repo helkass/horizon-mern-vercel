@@ -46,7 +46,7 @@ export const useRegister = () => {
                   dis(showAlert());
                }, 1500)
          );
-      if (customer.status === 200) {
+      if (customer.status === 201) {
          // save the admin in local storage
          localStorage.setItem("customer", JSON.stringify(customer.data));
          // update the auth context
@@ -58,5 +58,5 @@ export const useRegister = () => {
          }, 1500);
       }
    };
-   return { register };
+   return { register, isLoading };
 };
