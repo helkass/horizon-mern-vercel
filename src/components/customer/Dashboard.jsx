@@ -6,15 +6,11 @@ import { publicRequest } from "../../requestMethods";
 import InputTwoFlex from "../molecules/inputs/InputTwoFlex";
 import InputReadDefaultValue from "../atoms/inputs/InputReadDefaultValue";
 import Loading from "../Loading";
-import { AbsoluteAlert } from "../atoms/alerts/Alert";
 
 const Dashboard = (props) => {
    const [customer, setCustomer] = useState({});
    const { id } = useParams();
    const [isLoading, setLoading] = useState(false);
-   const [success, setSuccess] = useState(false);
-   const [error, setError] = useState(false);
-   const [showAlert, setShowAlert] = useState(false);
 
    useEffect(() => {
       const fetchData = async () => {
@@ -27,17 +23,10 @@ const Dashboard = (props) => {
 
    // update customer all data with PUT method
    const updateCustomer = async (data) => {
-      const response = await publicRequest
-         .patch(`/customer/update/${id}`, data)
-         .then((res) => console.log(res))
-         .catch((err) => setError(true));
-      console.log(response);
-      setShowAlert(true);
+      await publicRequest.patch(`/customer/update/${id}`, data);
 
       setTimeout(() => {
-         setShowAlert(false);
          setLoading(false);
-         setError(false);
       }, 1500);
    };
    const handleUpdate = async (e) => {
@@ -46,20 +35,12 @@ const Dashboard = (props) => {
       const form = new FormData(e.target);
       const data = Object.fromEntries(form.entries());
 
-      updateCustomer(data);
+      setTimeout(() => {
+         updateCustomer(data);
+      }, 1000);
    };
    return (
       <>
-         <AbsoluteAlert
-            error={error}
-            success={success}
-            isShow={showAlert}
-            mesage={
-               error
-                  ? "update failed"
-                  : (success && "update success") || "message didn't working!"
-            }
-         />
          {isLoading && (
             <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
          )}
