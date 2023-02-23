@@ -29,10 +29,8 @@ const Dashboard = (props) => {
    const updateCustomer = async (data) => {
       const response = await publicRequest
          .patch(`/customer/update/${id}`, data)
+         .then((res) => console.log(res))
          .catch((err) => setError(true));
-      if (response.status === 201) {
-         setSuccess(true);
-      }
       console.log(response);
       setShowAlert(true);
 

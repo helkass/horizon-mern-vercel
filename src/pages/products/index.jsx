@@ -22,6 +22,7 @@ import Title from "../../components/atoms/title/Title";
 import Modal from "../../components/organism/Modal";
 import { ButtonLink } from "../../components/atoms/button/Button";
 import PriceInputHandleQuantity from "../../components/molecules/PriceInputHandleQuantity";
+import Alert from "../../components/atoms/alerts/Alert";
 
 export default function Products() {
    // get type bottle items
@@ -54,7 +55,7 @@ export default function Products() {
                      <BottleCups {...obj} key={i} />
                   ))}
                </GridMdFour>
-               {isError && <Bug message="Bad Request Error" />}
+               {isError && <Alert error message="Bad Request Error" />}
                <br />
                <br />
                <div className="flex justify-center">
