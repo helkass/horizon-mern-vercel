@@ -79,7 +79,7 @@ const Navbar = () => {
                   </div>
                   {customer ? (
                      <div className="flex items-center gap-1">
-                        <Link to={`/cuctomer/${customer._id}`}>
+                        <Link to={`/customer/${customer._id}`}>
                            <span className="text-md cursor-pointer capitalize">
                               {customer.fullname.split(" ")[0]}
                            </span>

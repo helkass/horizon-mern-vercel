@@ -58,6 +58,10 @@ const Order = () => {
       }
       setCustomer(getCustomer);
       setCarts(getCarts);
+
+      if (carts.length < 0) {
+         navigate("/products");
+      }
    }, []);
 
    // new data format to json for send request charge
@@ -104,7 +108,9 @@ const Order = () => {
          },
       });
 
-      charge();
+      setTimeout(() => {
+         charge();
+      }, 1000);
    };
 
    return (
