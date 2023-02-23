@@ -27,11 +27,13 @@ const Dashboard = (props) => {
 
    // update customer all data with PUT method
    const updateCustomer = async (data) => {
-      await publicRequest
-         .put(`/customer/update/${id}`, data)
-         .then((res) => console.log(res) && setSuccess(true))
-         .catch((err) => console.log(err.message) && setError(true));
-
+      const response = await publicRequest
+         .patch(`/customer/update/${id}`, data)
+         .catch((err) => setError(true));
+      if (response.status === 201) {
+         setSuccess(true);
+      }
+      console.log(response);
       setShowAlert(true);
 
       setTimeout(() => {
