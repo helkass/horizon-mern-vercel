@@ -17,7 +17,6 @@ const AddPack = () => {
    const [size, setSize] = useState(0);
    const [img, setImg] = useState("");
    const [isLoading, setLoading] = useState(false);
-   const type = "pack";
    const [token, setToken] = useState("");
 
    useEffect(() => {
@@ -25,12 +24,6 @@ const AddPack = () => {
 
       setToken(adminToken?.accessToken);
    }, []);
-
-   // handle convert it in base64
-   const handleImage = (e) => {
-      const file = e.target.files[0];
-      setFileToBase(file);
-   };
 
    // encode image to base 64
    const setFileToBase = (file) => {
@@ -40,28 +33,24 @@ const AddPack = () => {
          setImg(reader.result);
       };
    };
+   // handle convert it in base64
+   const handleImage = (e) => {
+      const file = e.target.files[0];
+      setFileToBase(file);
+   };
 
    const handleSubmit = async (e) => {
       setLoading(true);
       e.preventDefault();
       try {
-         const response = await publicRequest.post(
-            "/item/create",
-            {
-               title,
-               desc,
-               size,
-               img,
-               price,
-               type,
-            },
-            {
-               headers: {
-                  "Content-Type": "applications/json",
-                  token: `Bearer ${token}`,
-               },
-            }
-         );
+         const response = await publicRequest.post("/item/create", {
+            title,
+            desc,
+            size,
+            image: img,
+            price,
+            type: "pack",
+         });
          if (response.status === 201) {
             setTitle("");
             setDesc("");
