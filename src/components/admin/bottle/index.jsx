@@ -1,7 +1,6 @@
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
 import Loading from "../../Loading";
 import Bug from "../../Bug";
-import Success from "../../Success";
 import DeleteComponent from "../actions/DeleteComponent";
 import { Link } from "react-router-dom";
 // fake
@@ -84,7 +83,7 @@ function Bottles() {
    );
 }
 
-function TableBody({ _id, title, desc, img, medium, large }) {
+function TableBody({ _id, title, desc, image, medium, large }) {
    const dispatch = useDispatch();
    const onDelete = (id) => {
       dispatch(deleteAction(id));
@@ -95,7 +94,7 @@ function TableBody({ _id, title, desc, img, medium, large }) {
             <div className="bg-amber-100 rounded py-1 w-2/12">
                <div className="objeect-cover flex mx-auto self-center">
                   <img
-                     src={img || defaultImage}
+                     src={image?.url || defaultImage}
                      alt={title || "unknown"}
                      className="mx-auto w-12 h-12 object-cover"
                   />

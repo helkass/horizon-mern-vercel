@@ -60,7 +60,10 @@ const AddPack = () => {
             setLoading(false);
             setSuccess(true);
          }
-         console.log(response);
+
+         setTimeout(() => {
+            window.location.reload(true);
+         }, 1500);
       } catch (error) {
          error && setError(true);
          setLoading(false);

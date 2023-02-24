@@ -1,6 +1,6 @@
 import AddPack from "../actions/AddPack";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useFetchGet from "../../../hooks/useFetchGet";
 import Loading from "../../Loading";
 import { useSelector, useDispatch } from "react-redux";
@@ -20,6 +20,12 @@ function CoffeePacks() {
    // state for displaying toggle form data
    const [visible, setVisible] = useState(false);
    const { data, isLoading, isError } = useFetchGet("/item?type=pack");
+
+   useEffect(() => {
+      setTimeout(() => {
+         console.log(data);
+      }, 2000);
+   }, []);
 
    // adding product
    const handleAdd = (e) => {
@@ -91,7 +97,7 @@ function CoffeePacks() {
    );
 }
 
-function TableBody({ _id, title, img, desc, price, size }) {
+function TableBody({ _id, title, image, desc, price, size }) {
    const dispatch = useDispatch();
 
    const onDelete = (id) => {
@@ -103,7 +109,7 @@ function TableBody({ _id, title, img, desc, price, size }) {
             <div className="bg-amber-100 rounded py-1 w-2/12">
                <div className="objeect-cover flex mx-auto self-center">
                   <img
-                     src={img || horizon_pack_image_default}
+                     src={image.url || horizon_pack_image_default}
                      alt={title || "unknown"}
                      className="mx-auto w-16 h-16 object-cover"
                   />
