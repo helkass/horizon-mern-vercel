@@ -1,17 +1,18 @@
 import AddPack from "../actions/AddPack";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import useFetchGet from "../../../hooks/useFetchGet";
+import { useState } from "react";
 import Loading from "../../Loading";
 import { useSelector, useDispatch } from "react-redux";
 import DeleteComponent from "../actions/DeleteComponent";
 import { Link } from "react-router-dom";
 import Alert from "../../atoms/alerts/Alert";
+import { currencyFormater } from "../../../functions/formater/currencyFormater";
 
 // fake
-import horizon_pack_image_default from "../../../assets/images/horizon-pack-default.png";
+import horizon_pack_image_default from "../../../assets/images/pack-template-horizon.png";
 import { deleteAction } from "../../../redux/toggleReducer";
-import { publicRequest } from "../../../requestMethods";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import { deleteProduct, getPackProduct } from "../../../helper/fetchProduct";
 
 // show all product from DB
 function CoffeePacks() {
@@ -19,14 +20,14 @@ function CoffeePacks() {
    const deleteId = useSelector((state) => state.toggle.client.deleteId);
    // state for displaying toggle form data
    const [visible, setVisible] = useState(false);
-   const { data, isLoading, isError } = useFetchGet("/item?type=pack");
+   const { data, isLoading, isError } = useQuery("product", getPackProduct);
 
-   useEffect(() => {
-      setTimeout(() => {
-         console.log(data);
-      }, 2000);
-   }, []);
-
+   const queryClient = useQueryClient();
+   const deletePackProductMutation = useMutation(deleteProduct, {
+      onSuccess: () => {
+         queryClient.invalidateQueries("product");
+      },
+   });
    // adding product
    const handleAdd = (e) => {
       e.preventDefault();
@@ -35,13 +36,12 @@ function CoffeePacks() {
 
    const deleteHandler = async () => {
       if (deleteId) {
-         await publicRequest.delete(`/item/delete/${deleteId}`);
-         dispatch(deleteAction(null));
-         window.location.reload(true);
+         deletePackProductMutation.mutate({ id: deleteId });
       }
+      dispatch(deleteAction(null));
    };
 
-   const cancelHandler = async () => {
+   const cancelHandler = () => {
       dispatch(deleteAction(null));
    };
 
@@ -125,7 +125,7 @@ function TableBody({ _id, title, image, desc, price, size }) {
                <p>{size || "unknown"}</p>
             </div>
             <div className="bg-amber-100 rounded py-1 w-2/12 sm:text-sm text-xs">
-               <p>{price || "unknown"}</p>
+               <p>{currencyFormater(price) || "unknown"}</p>
             </div>
             {/* clicked action*/}
             <div className="bg-amber-100 rounded py-2 px-2 md:gap-3 gap-2 md:w-1/12 text-center justify-center md:flex md:flex-col-1 grid grid-cols-1">

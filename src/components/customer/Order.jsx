@@ -1,9 +1,8 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Loading";
 import useFetchGet from "../../hooks/useFetchGet";
 import { Dialog, Transition } from "@headlessui/react";
-import { publicRequest } from "../../requestMethods";
 import BlankPage from "../templates/BlankPage";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 
@@ -16,24 +15,6 @@ function Order() {
    const [rekening, setReKening] = useState("");
    let [isOpen, setIsOpen] = useState(false);
    const [bankName, setBankName] = useState("");
-
-   const order_id = data.map((response) => response._id);
-
-   // refresh data if data change after paying
-   // checked status transaction by order_Id
-   // manual check and update because app unproduction
-   const changeStream = async () => {
-      try {
-         for (let i = 0; i < order_id.length; i++) {
-            await publicRequest.get(`/order/status/${order_id[i]}`);
-         }
-      } catch (error) {
-         console.log(error.message);
-      }
-   };
-   useEffect(() => {
-      changeStream();
-   }, [order_id]);
 
    function closeModal() {
       setIsOpen(false);

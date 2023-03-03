@@ -1,10 +1,11 @@
-import { useEffect } from "react";
 import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
-import { publicRequest } from "../../../requestMethods";
+import { useMutation, useQueryClient } from "react-query";
+import { addProduct } from "../../../helper/fetchProduct";
 import Alert from "../../atoms/alerts/Alert";
 import Loading from "../../Loading";
 import Success from "../../Success";
+import defaultImage from "../../../assets/images/pack-template-horizon.png";
 
 // show all product from DB
 const AddPack = () => {
@@ -17,13 +18,25 @@ const AddPack = () => {
    const [size, setSize] = useState(0);
    const [img, setImg] = useState("");
    const [isLoading, setLoading] = useState(false);
-   const [token, setToken] = useState("");
 
-   useEffect(() => {
-      const adminToken = JSON.parse(localStorage.getItem("admin"));
+   const queryClient = useQueryClient();
 
-      setToken(adminToken?.accessToken);
-   }, []);
+   const addProcuctPackMutation = useMutation(addProduct, {
+      onSuccess: () => {
+         setSuccess(true);
+         queryClient.invalidateQueries("product");
+         setTimeout(() => {
+            setSuccess(false);
+         }, 1500);
+      },
+      onError: () => {
+         setError(true);
+
+         setTimeout(() => {
+            setError(false);
+         }, 1500);
+      },
+   });
 
    // encode image to base 64
    const setFileToBase = (file) => {
@@ -40,37 +53,22 @@ const AddPack = () => {
    };
 
    const handleSubmit = async (e) => {
-      setLoading(true);
       e.preventDefault();
-      try {
-         const response = await publicRequest.post("/item/create", {
-            title,
-            desc,
-            size,
-            image: img,
-            price,
-            type: "pack",
-         });
-         if (response.status === 201) {
-            setTitle("");
-            setDesc("");
-            setImg("");
-            setSize(0);
-            setPrice(0);
-            setLoading(false);
-            setSuccess(true);
-         }
+      setLoading(true);
+      addProcuctPackMutation.mutate({
+         title,
+         desc,
+         size,
+         image: img,
+         price,
+         type: "pack",
+      });
 
-         setTimeout(() => {
-            window.location.reload(true);
-         }, 1500);
-      } catch (error) {
-         error && setError(true);
-         setLoading(false);
-      }
+      setLoading(false);
+      e.target.reset();
    };
    return (
-      <form className="grid gap-2 my-3 w-11/12">
+      <form onSubmit={handleSubmit} className="grid gap-2 my-3 w-11/12">
          {isLoading && (
             <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
          )}
@@ -87,7 +85,6 @@ const AddPack = () => {
                placeholder="title"
                type="text"
                name="title"
-               value={title}
                id="title"
                onChange={(e) => setTitle(e.target.value)}
             />
@@ -99,7 +96,6 @@ const AddPack = () => {
                placeholder="price"
                type="text"
                name="price"
-               value={price}
                id="price"
                onChange={(e) => setPrice(e.target.value)}
             />
@@ -111,7 +107,6 @@ const AddPack = () => {
                placeholder="size"
                type="number"
                name="size"
-               value={size}
                id="size"
                onChange={(e) => setSize(e.target.value)}
             />
@@ -123,21 +118,25 @@ const AddPack = () => {
                placeholder="description"
                type="text"
                name="desc"
-               value={desc}
                id="desc"
                onChange={(e) => setDesc(e.target.value)}
             />
          </div>
-         <label className="block">
+         <label className="text-sm">Optional..</label>
+         <div className="flex items-center gap-2">
             <input
                type="file"
                name="img"
                onChange={handleImage}
                className="block text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600 hover:file:bg-violet-100"
             />
-         </label>
+            <div className="block text-xs">
+               <span>if you not set image!</span>
+               <img className="w-20" src={defaultImage} alt="default image" />
+            </div>
+         </div>
          <button
-            onClick={handleSubmit}
+            type="submit"
             className="bg-green-300 mt-3 flex items-center hover:bg-green-500 px-4 py-1 rounded-md text-green-700 w-max">
             Add Coffee
             <span>

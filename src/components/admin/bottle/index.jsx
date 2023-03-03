@@ -11,6 +11,7 @@ import { publicRequest } from "../../../requestMethods";
 import { useDispatch, useSelector } from "react-redux";
 import useFetchGet from "../../../hooks/useFetchGet";
 import { deleteAction } from "../../../redux/toggleReducer";
+import { currencyFormater } from "../../../functions/formater/currencyFormater";
 // show all product from DB
 // cups
 function Bottles() {
@@ -107,8 +108,8 @@ function TableBody({ _id, title, desc, image, medium, large }) {
                <p>{desc || "unknown"}</p>
             </div>
             <div className="bg-amber-100 rounded py-1 w-2/12 sm:text-sm text-xs">
-               <p>{medium || "unknown"}</p>
-               <p>{large || "unknown"}</p>
+               <p>{currencyFormater(medium) || "unknown"}</p>
+               <p>{currencyFormater(large) || "unknown"}</p>
             </div>
             {/* clicked action*/}
             <div className="bg-amber-100 rounded py-2 px-2 md:gap-3 gap-2 md:w-1/12 text-center justify-center md:flex md:flex-col-1 grid grid-cols-1">
