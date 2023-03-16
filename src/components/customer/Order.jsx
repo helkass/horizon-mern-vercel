@@ -5,6 +5,7 @@ import useFetchGet from "../../hooks/useFetchGet";
 import { Dialog, Transition } from "@headlessui/react";
 import BlankPage from "../templates/BlankPage";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
+import { AiOutlineCopy } from "react-icons/ai";
 
 function Order() {
    const { id } = useParams();
@@ -12,6 +13,10 @@ function Order() {
    const { data, isLoading, isError } = useFetchGet(
       `/order/findbycustomer/${id}`
    );
+
+   const id_orders = data
+      .filter((el) => el.transaction_status !== "settlement")
+      .map((el) => el._id);
    const [rekening, setReKening] = useState("");
    let [isOpen, setIsOpen] = useState(false);
    const [bankName, setBankName] = useState("");
@@ -73,7 +78,7 @@ function Order() {
                               <p>
                                  Total :{" "}
                                  <span className="text-yellow-500">
-                                    {currencyFormater(midtrans.gross_amount)}
+                                    Rp.{currencyFormater(midtrans.gross_amount)}
                                  </span>
                               </p>
                               <p className="text-red-500 text-sm">
@@ -113,6 +118,9 @@ function Order() {
 }
 
 function Modal(props) {
+   const copyToClipboard = (event) => {
+      navigator.clipboard.writeText(event);
+   };
    return (
       <>
          <button
@@ -166,19 +174,26 @@ function Modal(props) {
                                  Bank: {props.bankName}
                               </Dialog.Title>
                            </div>
-                           <div className="mt-2">
+                           <div className="my-3 flex justify-between">
                               <p className="text-sm text-gray-500">
                                  VA number :{" "}
                                  <span className="font-semibold text-md">
                                     {props.popTitle}
                                  </span>
                               </p>
+                              <button
+                                 className="text-yellow-600 hover:bg-yellow-100 p-1 rounded focus:bg-yellow-100"
+                                 onClick={() =>
+                                    copyToClipboard(props.popTitle)
+                                 }>
+                                 <AiOutlineCopy size={22} />
+                              </button>
                            </div>
 
                            <div className="mt-4">
                               <button
                                  type="button"
-                                 className="inline-flex justify-center rounded-md border border-transparent bg-green-100 px-4 py-2 text-sm font-medium text-green-800 hover:bg-green-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-500 focus-visible:ring-offset-2"
+                                 className="inline-flex justify-center rounded-md border border-transparent bg-yellow-100 px-4 py-2 text-sm font-medium text-yellow-800 hover:bg-yellow-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-500 focus-visible:ring-offset-2"
                                  onClick={props.closeModal}>
                                  Got it, thanks!
                               </button>

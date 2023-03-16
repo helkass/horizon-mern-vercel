@@ -1,10 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "./constans/app";
-import Cookie from "universal-cookie";
 
 const customer = JSON.parse(localStorage.getItem("customer"));
-
-const cookies = new Cookie();
 
 const admin = JSON.parse(localStorage.getItem("admin"));
 

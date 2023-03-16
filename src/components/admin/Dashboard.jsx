@@ -12,6 +12,12 @@ import { ButtonBasic } from "../atoms/button/Button";
 import { replaceLongChar } from "../../functions/formater/longString";
 import Alert, { AbsoluteAlert } from "../atoms/alerts/Alert";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+   deleteOrder,
+   getOrders,
+   updateOrderStatusProcess,
+} from "../../helper/fetchOrder";
 
 function Main() {
    const [gallery, setGallery] = useState([]);
@@ -79,7 +85,8 @@ const Card = memo(function Card({ name, icon, total }) {
 
 // table history order
 function HistoryTable() {
-   const { data, isLoading, isError } = useOrders();
+   // const { data, isLoading, isError } = useOrders();
+   const { data, isLoading, isError } = useQuery("order", getOrders);
    const [showID, setShowID] = useState(true);
    const [copyAlert, setCopyAlert] = useState(false);
 
@@ -198,6 +205,22 @@ function Actions(props) {
    let [orderId, setOrderId] = useState("");
    const [load, setLoad] = useState(false);
 
+   const queryClient = useQueryClient();
+
+   const updateProcessStatus = useMutation(updateOrderStatusProcess, {
+      onSuccess: () => {
+         queryClient.invalidateQueries("order");
+         setLoad(false);
+      },
+   });
+
+   const rejectedOrder = useMutation(deleteOrder, {
+      onSuccess: () => {
+         queryClient.invalidateQueries("order");
+         setLoad(false);
+      },
+   });
+
    function closeModal() {
       setIsOpen(false);
       setOrderId("");
@@ -224,7 +247,6 @@ function Actions(props) {
          const response = await publicRequest.delete(
             `/order/delete/${orderId}`
          );
-         console.log(response);
          if (response.ok) {
             closeModal();
          }
@@ -233,6 +255,7 @@ function Actions(props) {
       }
    };
 
+   //handle binding data order id
    function openModal(order_id) {
       setIsOpen(true);
       setOrderId(order_id);

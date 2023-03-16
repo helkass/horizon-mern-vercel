@@ -62,7 +62,21 @@ const Order = () => {
       if (carts.length < 0) {
          navigate("/products");
       }
-   }, []);
+
+      setTimeout(() => {
+         setForm({
+            products: carts.map((cart) => ({
+               productId: cart._id,
+               quantity: cart.cartQuantity,
+               product_name: cart.title,
+            })),
+            transaction_details: {
+               gross_amount: cart.cartTotalAmount,
+               order_id: `HRS${orderId(6)}${date}`,
+            },
+         });
+      }, 1000);
+   }, [cart]);
 
    // new data format to json for send request charge
    const newJson = JSON.stringify({ ...form, ...parameter });
@@ -79,8 +93,7 @@ const Order = () => {
          }
       );
 
-      if (response.status === 201) {
-         setLoading(false);
+      if (response.status == 201 || 200) {
          setSuccess(true);
          // redirect to csustomer page after 2s
          setTimeout(() => {
@@ -88,25 +101,14 @@ const Order = () => {
             navigate("/products");
          }, 1500);
       } else {
-         setLoading(false);
          setError(true);
       }
+      setLoading(false);
    }
 
    const handleSubmit = (e) => {
       e.preventDefault();
       setLoading(true);
-      setForm({
-         products: carts.map((cart) => ({
-            productId: cart._id,
-            quantity: cart.cartQuantity,
-            product_name: cart.title,
-         })),
-         transaction_details: {
-            gross_amount: cart.cartTotalAmount,
-            order_id: `HRS${orderId(6)}${date}`,
-         },
-      });
 
       setTimeout(() => {
          charge();
@@ -116,8 +118,10 @@ const Order = () => {
    return (
       <Layout>
          <main className="mt-20">
-            {isLoading && (
+            {isLoading ? (
                <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+            ) : (
+               <></>
             )}
             <h2 className="font-flower text-xl text-center my-6">
                One more Step

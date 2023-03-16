@@ -41,7 +41,10 @@ export const InputRegister = ({ name, className, type }) => {
    return (
       <>
          <div className="flex flex-col">
-            <label htmlFor={name}>{name}</label>
+            <label htmlFor={name}>
+               {name}
+               <span className="text-red-400">*</span>
+            </label>
             <input
                type={type}
                name={name}
