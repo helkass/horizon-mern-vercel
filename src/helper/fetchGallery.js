@@ -1,7 +1,7 @@
-import { publicRequest } from "../requestMethods";
+import { publicRequest, authorizationRequest } from "../requestMethods";
 
 export const addGallery = async (data) => {
-   const response = await publicRequest.post("/gallery/create", data);
+   const response = await authorizationRequest.post("/gallery/create", data);
    return response;
 };
 
@@ -11,5 +11,5 @@ export const getGalleries = async () => {
 };
 
 export const deleteGallery = async ({ id }) => {
-   return await publicRequest.delete(`gallery/delete/${id}`);
+   return await authorizationRequest.delete(`gallery/delete/${id}`);
 };

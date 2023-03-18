@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
-import { publicRequest } from "../../requestMethods";
+import { authorizationRequest } from "../../requestMethods";
 import Success from "../../components/Success";
 import { apiUrl } from "../../constans/app";
 import Bug from "../../components/Bug";
@@ -83,7 +83,7 @@ const Order = () => {
 
    // order function
    async function charge() {
-      const response = await publicRequest.post(
+      const response = await authorizationRequest.post(
          `${apiUrl}/order/charge`,
          newJson,
          {

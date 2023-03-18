@@ -39,16 +39,6 @@ const AddGallery = () => {
       e.preventDefault();
       addGalleryMutation.mutate({ title, desc, img, writer });
       e.target.reset();
-      // try {
-      //    await publicRequest.post("/gallery", {
-      //       title,
-      //       desc,
-      //       img,
-      //       writer,
-      //    });
-      // } catch (error) {
-      //    console.log(error);
-      // }
    };
 
    return (

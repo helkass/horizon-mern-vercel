@@ -1,22 +1,27 @@
 import React, { useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Loading";
-import useFetchGet from "../../hooks/useFetchGet";
 import { Dialog, Transition } from "@headlessui/react";
 import BlankPage from "../templates/BlankPage";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 import { AiOutlineCopy } from "react-icons/ai";
+import { useMutation, useQuery } from "react-query";
+import { getOrderByCustomer, getOrderByStatus } from "../../helper/fetchOrder";
+import Alert from "../atoms/alerts/Alert";
 
 function Order() {
    const { id } = useParams();
    // fetching data order by id user
-   const { data, isLoading, isError } = useFetchGet(
-      `/order/findbycustomer/${id}`
-   );
+   const { data, isLoading, isError } = useQuery(getOrderByCustomer(id));
 
    const id_orders = data
       .filter((el) => el.transaction_status !== "settlement")
       .map((el) => el._id);
+
+   for (let id of id_orders) {
+      useMutation(getOrderByStatus(id));
+   }
+
    const [rekening, setReKening] = useState("");
    let [isOpen, setIsOpen] = useState(false);
    const [bankName, setBankName] = useState("");
@@ -41,6 +46,7 @@ function Order() {
    }
    return (
       <main className="w-full min-h-screen">
+         {isError && <Alert error message="Error while fetching data!" />}
          {isLoading ? (
             <Loading />
          ) : (

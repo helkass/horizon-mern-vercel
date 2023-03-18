@@ -1,7 +1,7 @@
-import { publicRequest } from "../requestMethods";
+import { publicRequest, authorizationRequest } from "../requestMethods";
 
 export const addProduct = async (data) => {
-   const response = await publicRequest.post("/item/create", data);
+   const response = await authorizationRequest.post("/item/create", data);
    return response;
 };
 
@@ -16,5 +16,5 @@ export const getBottleProduct = async () => {
 };
 
 export const deleteProduct = async ({ id }) => {
-   return await publicRequest.delete(`item/delete/${id}`);
+   return await authorizationRequest.delete(`item/delete/${id}`);
 };

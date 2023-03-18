@@ -57,7 +57,16 @@ function App() {
             <Route path="/products/orderwa" element={<OrderWa />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/customer/:id" element={<Customer />} />
+            <Route
+               path="/customer/:id"
+               element={
+                  customer == null ? (
+                     <Navigate to="/login" replace />
+                  ) : (
+                     <Customer />
+                  )
+               }
+            />
 
             {/* admin */}
             <Route

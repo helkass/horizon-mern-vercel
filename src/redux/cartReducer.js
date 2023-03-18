@@ -9,6 +9,10 @@ const initialState = {
          : [],
    cartTotalQuantity: 0,
    cartTotalAmount: 0,
+   alert: {
+      status: false,
+      message: "",
+   },
 };
 
 export const CartSlice = createSlice({
@@ -30,6 +34,11 @@ export const CartSlice = createSlice({
             state.cartItems.push(tempProduct);
          }
 
+         state.alert = {
+            status: true,
+            message: `${action.payload.title} add to cart!`,
+         };
+
          // set total amount all cart items
          state.cartTotalAmount += state.cartItems.map(
             (item) => item.cartQuantity * item.price
@@ -39,6 +48,9 @@ export const CartSlice = createSlice({
             "cart",
             JSON.stringify(state.cartItems, state.cartTotalAmount)
          );
+      },
+      removeAlert(state) {
+         state.alert.status = false;
       },
       remove(state, action) {
          const nextCart = state.cartItems.filter(
@@ -92,7 +104,13 @@ export const CartSlice = createSlice({
    },
 });
 
-export const { add, remove, decreaseCart, getTotals, removeCarts } =
-   CartSlice.actions;
+export const {
+   add,
+   remove,
+   decreaseCart,
+   getTotals,
+   removeCarts,
+   removeAlert,
+} = CartSlice.actions;
 
 export default CartSlice.reducer;

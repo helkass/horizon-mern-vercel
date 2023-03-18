@@ -35,7 +35,7 @@ const AddBottle = () => {
       e.preventDefault();
       setLoading(true);
       try {
-         const response = await publicRequest.post("/item/create", {
+         const response = await authorizationRequest.post("/item/create", {
             title,
             desc,
             image: img,

@@ -7,7 +7,6 @@ import { Transition, Dialog } from "@headlessui/react";
 import { publicRequest } from "../../requestMethods";
 import Loading from "../Loading";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import useOrders from "../../hooks/useOrders/useOrders";
 import { ButtonBasic } from "../atoms/button/Button";
 import { replaceLongChar } from "../../functions/formater/longString";
 import Alert, { AbsoluteAlert } from "../atoms/alerts/Alert";

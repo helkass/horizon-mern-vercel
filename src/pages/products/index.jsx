@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useReducer } from "react";
 import Layout from "../../components/Layout";
 import Container from "../../components/Container";
 import Loading from "../../components/Loading";
@@ -13,8 +13,8 @@ import { FaMotorcycle, FaCartPlus } from "react-icons/fa";
 
 import { useNavigate } from "react-router-dom";
 import Cart from "../../components/Cart";
-import { add } from "../../redux/cartReducer";
-import { useDispatch } from "react-redux";
+import { add, removeAlert } from "../../redux/cartReducer";
+import { useDispatch, useSelector } from "react-redux";
 import { publicRequest } from "../../requestMethods";
 import useFetchGet from "../../hooks/useFetchGet";
 import GridMdFour from "../../components/templates/Grid";
@@ -22,25 +22,32 @@ import Title from "../../components/atoms/title/Title";
 import Modal from "../../components/organism/Modal";
 import { ButtonLink } from "../../components/atoms/button/Button";
 import PriceInputHandleQuantity from "../../components/molecules/PriceInputHandleQuantity";
-import Alert from "../../components/atoms/alerts/Alert";
+import Alert, { AbsoluteAlert } from "../../components/atoms/alerts/Alert";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 
 export default function Products() {
    // get type bottle items
+   const cart = useSelector((state) => state.cart);
    const { data, isLoading, isError } = useFetchGet("/item?type=bottle");
    const [packs, setPacks] = useState([]);
    // get type packs item
+   const fetchData = async () => {
+      const response = await publicRequest.get("/item?type=pack");
+      setPacks(response.data);
+   };
    useEffect(() => {
-      const fetchData = async () => {
-         const response = await publicRequest.get("/item?type=pack");
-         setPacks(response.data);
-      };
       fetchData();
    }, []);
+
    return (
       <Layout>
          <main className="pt-24">
             <Container>
+               <AbsoluteAlert
+                  success
+                  message={cart.alert.message}
+                  isShow={cart.alert.status}
+               />
                <div className="flex w-full justify-between text-amber-900 py-2 md:pb-0 items-center">
                   <Title
                      title="bottle and cups"
@@ -77,7 +84,7 @@ export default function Products() {
 }
 
 // instant Order cups and bottle
-function BottleCups(props) {
+const BottleCups = memo(function (props) {
    const [countMedium, setCountMedium] = useState(0);
    const [countLarge, setCountLarge] = useState(0);
    const [disableButton, setDisableButton] = useState(true);
@@ -221,10 +228,10 @@ function BottleCups(props) {
          </Modal>
       </>
    );
-}
+});
 
 // Bij Kopi
-function CoffeePacks(props) {
+const CoffeePacks = memo(function (props) {
    const dispatch = useDispatch();
    const [view, setView] = useState(false);
    const [modalContent, setModalContent] = useState([]);
@@ -235,6 +242,10 @@ function CoffeePacks(props) {
 
    const handleAdd = (obj) => {
       dispatch(add(obj));
+
+      setTimeout(() => {
+         dispatch(removeAlert());
+      }, 1500);
    };
    return (
       <>
@@ -290,4 +301,4 @@ function CoffeePacks(props) {
          </Modal>
       </>
    );
-}
+});

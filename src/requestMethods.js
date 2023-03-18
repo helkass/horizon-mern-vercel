@@ -1,8 +1,8 @@
 import axios from "axios";
 import { apiUrl } from "./constans/app";
 
+// middleware
 const customer = JSON.parse(localStorage.getItem("customer"));
-
 const admin = JSON.parse(localStorage.getItem("admin"));
 
 const getToken = () => {

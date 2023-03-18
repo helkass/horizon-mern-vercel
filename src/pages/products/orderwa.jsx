@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { InputCalculate } from "../../components/Form";
 import FormTemplate from "../../components/templates/FormTemplate";
 import Alert from "../../components/atoms/alerts/Alert";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { publicRequest } from "../../requestMethods";
 import Title from "../../components/atoms/title/Title";
 import InputChange from "../../components/atoms/inputs/InputChange";
@@ -14,6 +14,8 @@ const OrderWa = () => {
    const [error, setError] = useState(false);
    const [datas, setDatas] = useState(null);
    const [discount, setDiscount] = useState(0);
+
+   const navigate = useNavigate();
 
    const [form, setForm] = useState({
       username: "",
@@ -47,7 +49,11 @@ const OrderWa = () => {
    };
    useEffect(() => {
       getData();
-   }, []);
+
+      if (id == undefined || null) {
+         navigate("/products");
+      }
+   }, [id]);
 
    function handleWhatsapp() {
       // accumulate sub total
