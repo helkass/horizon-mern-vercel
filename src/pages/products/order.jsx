@@ -21,9 +21,9 @@ import Loading from "../../components/Loading";
 
 const Order = () => {
    const cart = useSelector((state) => state.cart);
-   const [carts, setCarts] = useState([]);
    const [success, setSuccess] = useState(false);
    const [error, setError] = useState(false);
+   const [carts, setCarts] = useState([]);
    const navigate = useNavigate();
    const [customer, setCustomer] = useState({});
    const dispatch = useDispatch();
@@ -59,23 +59,28 @@ const Order = () => {
       setCustomer(getCustomer);
       setCarts(getCarts);
 
-      if (carts.length < 0) {
+      // condition while total amount 0
+      if (cart.cartTotalAmount == 0) {
          navigate("/products");
       }
 
-      setTimeout(() => {
-         setForm({
-            products: carts.map((cart) => ({
-               productId: cart._id,
-               quantity: cart.cartQuantity,
-               product_name: cart.title,
-            })),
-            transaction_details: {
-               gross_amount: cart.cartTotalAmount,
-               order_id: `HRS${orderId(6)}${date}`,
-            },
-         });
-      }, 1000);
+      // emty carts
+      if (getCarts?.length < 0 || getCarts == undefined) {
+         navigate("/products");
+      }
+
+      // set data format for transactions
+      setForm({
+         products: getCarts?.map((cart) => ({
+            productId: cart._id,
+            quantity: cart.cartQuantity,
+            product_name: cart.title,
+         })),
+         transaction_details: {
+            gross_amount: cart.cartTotalAmount,
+            order_id: `HRS${orderId(6)}${date}`,
+         },
+      });
    }, [cart]);
 
    // new data format to json for send request charge
@@ -95,15 +100,16 @@ const Order = () => {
 
       if (response.status == 201 || 200) {
          setSuccess(true);
+         setLoading(false);
          // redirect to csustomer page after 2s
          setTimeout(() => {
             dispatch(removeCarts());
             navigate("/products");
          }, 1500);
       } else {
+         setLoading(false);
          setError(true);
       }
-      setLoading(false);
    }
 
    const handleSubmit = (e) => {
@@ -137,7 +143,7 @@ const Order = () => {
                         {carts?.map((data, i) => (
                            <div key={i} className="flex gap-2">
                               <ImageBasic
-                                 src={data.img || defaultImage}
+                                 src={data.image.url || defaultImage}
                                  alt={data.title}
                                  styledCustom="w-1/4"
                               />
@@ -200,8 +206,6 @@ const Order = () => {
                         <InputTwoFlex
                            inputName1="email"
                            defaultValue1={customer.email}
-                           inputName2="postalcode"
-                           defaultValue2={customer.postalcode}
                         />
                         {/* payment */}
                         <div className="flex gap-4 flex-col">

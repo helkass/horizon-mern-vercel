@@ -24,7 +24,7 @@ const Alert = ({ onClick, message, error, success }) => {
 export const AbsoluteAlert = ({ message, success, error, isShow }) => {
    return (
       <div
-         className={`fixed transition-all duration-500 ease bottom-10  ${
+         className={`fixed transition-all duration-500 ease bottom-10 z-[999] ${
             isShow ? "flex" : "hidden"
          }`}>
          <div

@@ -9,11 +9,13 @@ import { publicRequest } from "../../requestMethods";
 import Title from "../../components/atoms/title/Title";
 import InputChange from "../../components/atoms/inputs/InputChange";
 import { urlwhatasapp, whatsappNumber } from "../../constans/app";
+import defaultImage from "../../assets/images/pack-template-horizon.png";
 
 const OrderWa = () => {
    const [error, setError] = useState(false);
    const [datas, setDatas] = useState(null);
    const [discount, setDiscount] = useState(0);
+   const [user, setUser] = useState({});
 
    const navigate = useNavigate();
 
@@ -44,16 +46,22 @@ const OrderWa = () => {
    } = location;
 
    const getData = async () => {
-      const { data } = await publicRequest.get(`/item`);
+      const { data } = await publicRequest.get(`/item?type=bottle`);
       setDatas(data);
    };
    useEffect(() => {
       getData();
+      const user = JSON.parse(localStorage.getItem("customer"));
+
+      if(user){
+         setUser(user);
+      }
 
       if (id == undefined || null) {
          navigate("/products");
       }
    }, [id]);
+   console.log("datas", datas)
 
    function handleWhatsapp() {
       // accumulate sub total
@@ -119,6 +127,7 @@ const OrderWa = () => {
                            onChange={onChange}
                            label="username"
                            border
+                           defaultValue={user?.fullname}
                         />
                         <InputChange
                            name="company"
@@ -129,6 +138,7 @@ const OrderWa = () => {
                         <InputChange
                            required
                            name="address"
+                           defaultValue={user?.address}
                            onChange={onChange}
                            label="address"
                            border
@@ -164,7 +174,7 @@ const OrderWa = () => {
                               </div>
                               <div className="p-2 flex gap-2">
                                  <img
-                                    src={obj.img}
+                                    src={obj.image?.url || defaultImage}
                                     alt="image"
                                     className="rounded-md w-20 h-20 object-cover"
                                  />

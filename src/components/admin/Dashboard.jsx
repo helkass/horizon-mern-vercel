@@ -4,7 +4,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { FiBox } from "react-icons/fi";
 import { useState, useEffect, Fragment, memo } from "react";
 import { Transition, Dialog } from "@headlessui/react";
-import { publicRequest } from "../../requestMethods";
+import {authorizationRequest} from "../../requestMethods";
 import Loading from "../Loading";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { ButtonBasic } from "../atoms/button/Button";
@@ -25,16 +25,16 @@ function Main() {
    const [customers, setCustomers] = useState([]);
 
    const fetchingData = async () => {
-      const item = await publicRequest.get("/item");
+      const item = await authorizationRequest.get("/item");
       setItems(item.data);
 
-      const gallery = await publicRequest.get("/gallery");
+      const gallery = await authorizationRequest.get("/gallery");
       setGallery(gallery.data);
 
-      const blog = await publicRequest.get("/blog");
+      const blog = await authorizationRequest.get("/blog");
       setBlogs(blog.data);
 
-      const customer = await publicRequest.get("/customer");
+      const customer = await authorizationRequest.get("/customer");
       setCustomers(customer.data);
    };
 
@@ -84,8 +84,8 @@ const Card = memo(function Card({ name, icon, total }) {
 
 // table history order
 function HistoryTable() {
-   // const { data, isLoading, isError } = useOrders();
-   const { data, isLoading, isError } = useQuery("order", getOrders);
+   const { data, isLoading, isError, error } = useQuery("orders", getOrders);
+
    const [showID, setShowID] = useState(true);
    const [copyAlert, setCopyAlert] = useState(false);
 
@@ -137,12 +137,12 @@ function HistoryTable() {
                   action
                </span>
             </div>
-            {isError && <Alert error message="error data" />}
+            {isError || error ? <Alert error message="error data" /> : <></>}
             {/* main ordering data */}
             {isLoading ? (
                <Loading />
             ) : (
-               data.map(
+               data?.map(
                   (order) =>
                      order.response_midtrans.transaction_status ===
                         "settlement" && (
@@ -208,14 +208,14 @@ function Actions(props) {
 
    const updateProcessStatus = useMutation(updateOrderStatusProcess, {
       onSuccess: () => {
-         queryClient.invalidateQueries("order");
+         queryClient.invalidateQueries("orders");
          setLoad(false);
       },
    });
 
    const rejectedOrder = useMutation(deleteOrder, {
       onSuccess: () => {
-         queryClient.invalidateQueries("order");
+         queryClient.invalidateQueries("orders");
          setLoad(false);
       },
    });
@@ -227,31 +227,12 @@ function Actions(props) {
 
    const handlerAccept = async () => {
       setLoad(true);
-      try {
-         const response = await publicRequest.put(
-            `/order/status/process/${orderId}`
-         );
-         if (response.status == 200) {
-            closeModal();
-         }
-      } catch (error) {
-         console.log(error);
-      }
+      updateProcessStatus.mutate(orderId);
       setLoad(false);
-      window.location.reload(false);
    };
 
    const rejectHandler = async () => {
-      try {
-         const response = await publicRequest.delete(
-            `/order/delete/${orderId}`
-         );
-         if (response.ok) {
-            closeModal();
-         }
-      } catch (error) {
-         console.log(error);
-      }
+      rejectedOrder.mutate(orderId);
    };
 
    //handle binding data order id

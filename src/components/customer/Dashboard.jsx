@@ -6,96 +6,130 @@ import InputTwoFlex from "../molecules/inputs/InputTwoFlex";
 import InputReadDefaultValue from "../atoms/inputs/InputReadDefaultValue";
 import Loading from "../Loading";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { getCustomer, updateCustomer } from "../../helper/fetchCustomer";
+import CryptoJS from "crypto-js";
+import {
+   updateCustomer,
+   useFetchCustomerById,
+} from "../../helper/fetchCustomer";
 import Alert from "../atoms/alerts/Alert";
 
 const Dashboard = () => {
    const { id } = useParams();
-   const [success, setSuccess] = useState(false);
+   const [successUpdate, setSuccessUpdate] = useState(false);
+   const [errorUpdate, setErrorUpdate] = useState(false);
+   const [inputs, setInputs] = useState(null);
+
+   const handleChange = (e) => {
+      setInputs((prev) => {
+         return { ...prev, [e.target.name]: e.target.value };
+      });
+   };
 
    const queryClient = useQueryClient();
 
-   const { data, isLoading, isError } = useQuery("customer", getCustomer(id));
+   const { data, isLoading, isError } = useFetchCustomerById(id);
+   console.log(data)
 
    const updateCustomerMutation = useMutation(updateCustomer, {
       onSuccess: () => {
-         queryClient.invalidateQueries("customer");
-         setSuccess(true);
+         queryClient.invalidateQueries("customer-detail");
+         setSuccessUpdate(true);
+      },
+      onError: () => {
+         setErrorUpdate(true);
       },
    });
 
    useEffect(() => {
       setTimeout(() => {
-         setSuccess(false);
+         setSuccessUpdate(false);
+         setErrorUpdate(false);
       }, 1500);
-   }, [success]);
+   }, [successUpdate, errorUpdate]);
 
-   const handleUpdate = async (e) => {
+   const handleUpdate = (e) => {
       e.preventDefault();
-      const form = new FormData(e.target);
-      const data = Object.fromEntries(form.entries());
-      updateCustomerMutation(data);
+      updateCustomerMutation.mutate({ ...inputs, _id: data.data._id });
    };
    return (
       <>
-         {isLoading && (
+         {isError && <Alert error message="Error data while fetching!" />}
+         {isLoading ? (
             <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
-         )}
-         {isError && <Alert error message="Error data while fething!" />}
-         {success && <Alert success message="Update profile success!" />}
-         <form
-            onSubmit={handleUpdate}
-            className="sm:w-9/12 px-5 space-y-2 min-h-screen">
-            <div className="flex gap-3 items-center">
-               <div className="w-[90px] h-[90px] rounded-full">
-                  <img
-                     src={defaultImage}
-                     className="rounded-full"
-                     alt={`photo ${data.fullname}`}
-                  />
+         ) : (
+            <form
+               onSubmit={handleUpdate}
+               className="sm:w-9/12 px-5 space-y-2 min-h-screen">
+               {/* alert error while update or success */}
+               {successUpdate && (
+                  <Alert success message="Update profile success!" />
+               )}
+               {errorUpdate && <Alert error message="Update profile failed!" />}
+               {/* end alert */}
+               <div className="flex gap-3 items-center">
+                  <div className="w-[90px] h-[90px] rounded-full">
+                     <img
+                        src={defaultImage}
+                        className="rounded-full"
+                        alt={`photo ${data.data?.fullname}`}
+                     />
+                  </div>
                </div>
-            </div>
-            <InputTwoFlex
-               label1="fullname"
-               inputName1="fullname"
-               defaultValue1={data.fullname}
-               border
-               label2="phone"
-               defaultValue2={data.phone}
-               inputName2="phone"
-            />
-            <DefaultInput
-               name="address"
-               label="address"
-               defaultValue={data.address}
-            />
-            <InputTwoFlex
-               label1="city"
-               inputName1="city"
-               defaultValue1={data.city}
-               border
-               label2="province"
-               defaultValue2={data.province}
-               inputName2="province"
-            />
-            <InputReadDefaultValue
-               name="email"
-               type="email"
-               defaultValue={data.email}
-               border
-               label="email"
-               styledCustom="md:w-1/2"
-            />
-            <div className="w-full font-flower flex justify-end">
-               <button
-                  type="submit"
-                  className={`${
-                     isLoading && "cursor-not-allowed"
-                  } px-4 py-2 rounded-md bg-yellow-100 min-w-[100px] my-7`}>
-                  Save
-               </button>
-            </div>
-         </form>
+               <InputTwoFlex
+                  label1="fullname"
+                  inputName1="fullname"
+                  defaultValue1={data.data?.fullname}
+                  border
+                  onChange={handleChange}
+                  label2="phone"
+                  defaultValue2={data.data?.phone}
+                  inputName2="phone"
+               />
+               <DefaultInput
+                  name="address"
+                  onChange={handleChange}
+                  label="address"
+                  defaultValue={data.data?.address}
+               />
+               <InputTwoFlex
+                  label1="city"
+                  inputName1="city"
+                  defaultValue1={data.data?.city}
+                  border
+                  onChange={handleChange}
+                  label2="province"
+                  defaultValue2={data.data?.province}
+                  inputName2="province"
+               />
+               <InputReadDefaultValue
+                  name="email"
+                  type="email"
+                  onChange={handleChange}
+                  defaultValue={data.data?.email}
+                  border
+                  label="email"
+                  styledCustom="md:w-1/2"
+               />
+               <InputReadDefaultValue
+                  name="password"
+                  type="password"
+                  border
+                  onChange={handleChange}
+                  defaultValue={data.data?.password}
+                  label="Change password"
+                  styledCustom="md:w-1/2"
+               />
+               <div className="w-full font-flower flex justify-end">
+                  <button
+                     type="submit"
+                     className={`${
+                        isLoading && "cursor-not-allowed"
+                     } px-4 py-2 rounded-md bg-yellow-100 min-w-[100px] my-7`}>
+                     Save
+                  </button>
+               </div>
+            </form>
+         )}
       </>
    );
 };

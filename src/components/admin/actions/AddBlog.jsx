@@ -9,6 +9,8 @@ import Bug from "../../Bug";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import { authorizationRequest } from "../../../requestMethods";
+import {useMutation} from "react-query";
+import {addBlog} from "../../../helper/fetchBlog.js";
 // show all product from DB
 const AddBlog = () => {
    const navigate = useNavigate();
@@ -36,24 +38,27 @@ const AddBlog = () => {
       };
    };
 
+   const addBlogMutation = useMutation(addBlog, {
+      onSuccess: () => {
+         setSuccess(true);
+
+         setTimeout(() => {
+            setSuccess(false);
+            navigate("/admin");
+         },1000);
+      },
+      onError: () => {
+         setError(true);
+
+         setTimeout(() => {
+            setError(false);
+         },2000);
+      }
+   })
+
    const handleSubmit = async (e) => {
       e.preventDefault();
-      try {
-         const response = await authorizationRequest.post("/blog/create", {
-            title,
-            article,
-            writer,
-            img,
-         });
-         if (response.status === 200 || 201) {
-            setSuccess(true);
-            setTimeout(() => {
-               navigate("/admin");
-            }, 1000);
-         }
-      } catch (err) {
-         err && setError(true);
-      }
+      addBlogMutation.mutate({title, article, writer, img});
    };
    return (
       <>

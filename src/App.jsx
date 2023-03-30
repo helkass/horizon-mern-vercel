@@ -55,7 +55,16 @@ function App() {
                }
             />
             <Route path="/products/orderwa" element={<OrderWa />} />
-            <Route path="/login" element={<Login />} />
+            <Route
+               path="/login"
+               element={
+                  customer !== null ? (
+                     <Navigate to="/products" replace />
+                  ) : (
+                     <Login />
+                  )
+               }
+            />
             <Route path="/register" element={<Register />} />
             <Route
                path="/customer/:id"

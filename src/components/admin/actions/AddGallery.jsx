@@ -2,15 +2,16 @@ import { useState } from "react";
 import { BiPlus } from "react-icons/bi";
 import { useMutation, useQueryClient } from "react-query";
 import { addGallery } from "../../../helper/fetchGallery";
-import { publicRequest } from "../../../requestMethods";
+import Alert from "../../atoms/alerts/Alert";
 
 // show all product from DB
 const AddGallery = () => {
    // declare
    const [title, setTitle] = useState("");
    const [desc, setDesc] = useState("");
-   const [img, setImg] = useState("");
+   const [image, setImg] = useState("");
    const [writer, setWriter] = useState("");
+   const [error, setError] = useState(false);
 
    const queryClient = useQueryClient();
 
@@ -18,6 +19,12 @@ const AddGallery = () => {
       onSuccess: () => {
          queryClient.invalidateQueries("gallery");
       },
+       onError: () => {
+          setError(true);
+          setTimeout(() => {
+              setError(false)
+          }, 1500);
+       }
    });
 
    // handle convert it in base64
@@ -37,12 +44,13 @@ const AddGallery = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      addGalleryMutation.mutate({ title, desc, img, writer });
-      e.target.reset();
+      addGalleryMutation.mutate({title, desc, image, writer});
+      // e.target.reset();
    };
 
    return (
       <form onSubmit={handleSubmit} className="grid gap-2 my-3">
+          {error && <Alert error message="something went wrong!"/>}
          <div>
             <input
                className="placeholder:italic placeholder:text-slate-400 block bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm focus:outline-none focus:border-yellow-500 focus:ring-yellow-500 focus:ring-1 sm:text-sm"

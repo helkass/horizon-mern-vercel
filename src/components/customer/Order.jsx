@@ -1,26 +1,48 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Loading";
 import { Dialog, Transition } from "@headlessui/react";
 import BlankPage from "../templates/BlankPage";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 import { AiOutlineCopy } from "react-icons/ai";
-import { useMutation, useQuery } from "react-query";
-import { getOrderByCustomer, getOrderByStatus } from "../../helper/fetchOrder";
+import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+   getOrderByStatus,
+   useFetchOrdersCustomerById,
+} from "../../helper/fetchOrder";
 import Alert from "../atoms/alerts/Alert";
 
 function Order() {
    const { id } = useParams();
    // fetching data order by id user
-   const { data, isLoading, isError } = useQuery(getOrderByCustomer(id));
+   const { data, isLoading, isError } = useFetchOrdersCustomerById(id);
 
-   const id_orders = data
-      .filter((el) => el.transaction_status !== "settlement")
-      .map((el) => el._id);
+   const queryClient = useQueryClient();
+   // update status order manual
+   const updateStatusOrderManual = useMutation(getOrderByStatus, {
+      onSuccess: () => {
+         queryClient.invalidateQueries("order");
+      },
+   });
 
-   for (let id of id_orders) {
-      useMutation(getOrderByStatus(id));
+   function getOrdersId(data) {
+      return data
+         ?.filter((el) => el.transaction_status !== "settlement")
+         .map((el) => el._id);
    }
+
+   useEffect(() => {
+      setTimeout(() => {
+         const id_orders = getOrdersId(data);
+         if (isLoading == false) {
+            if (id_orders.length >= 0 && isLoading == false) {
+               for (let id of id_orders) {
+                  updateStatusOrderManual.mutate(id);
+               }
+            }
+         }
+      }, 1500);
+   }, []);
 
    const [rekening, setReKening] = useState("");
    let [isOpen, setIsOpen] = useState(false);
@@ -46,12 +68,11 @@ function Order() {
    }
    return (
       <main className="w-full min-h-screen">
-         {isError && <Alert error message="Error while fetching data!" />}
          {isLoading ? (
             <Loading />
          ) : (
             <div className="flex flex-col gap-7">
-               {data.map((order) => {
+               {data?.map((order) => {
                   // set background color red while transaction status expire
                   // expire time in 24 hours after order
                   // get status midtrans
@@ -84,7 +105,8 @@ function Order() {
                               <p>
                                  Total :{" "}
                                  <span className="text-yellow-500">
-                                    Rp.{currencyFormater(midtrans.gross_amount)}
+                                    Rp.
+                                    {currencyFormater(midtrans.gross_amount)}
                                  </span>
                               </p>
                               <p className="text-red-500 text-sm">
@@ -118,7 +140,7 @@ function Order() {
                })}
             </div>
          )}
-         {data.length === 0 && <BlankPage message="Order not found" error />}
+         {isError && <Alert error message="Error while fetching data!" />}
       </main>
    );
 }

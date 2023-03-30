@@ -65,7 +65,7 @@ const Galleries = () => {
    );
 };
 
-function TableBody({ _id, title, img, desc, writer }) {
+function TableBody({ _id, title, img, desc, writer, image }) {
    const dispatch = useDispatch();
 
    const onDelete = (id) => {
@@ -76,7 +76,7 @@ function TableBody({ _id, title, img, desc, writer }) {
          <div className="bg-amber-50 rounded-md p-1 text-xs lg:text-sm tracking-wide">
             <div className="w-full items-center flex justify-center py-1">
                <img
-                  src={img || defaultImage}
+                  src={img || image.url || defaultImage}
                   className="mx-auto w-11/12 h-11/12"
                   alt={title}
                />

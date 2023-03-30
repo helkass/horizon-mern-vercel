@@ -1,3 +1,4 @@
+import { useQuery } from "react-query";
 import { authorizationRequest } from "../requestMethods";
 
 export const getCustomers = async () => {
@@ -5,13 +6,19 @@ export const getCustomers = async () => {
 };
 
 export const getCustomer = async (id) => {
-   const response = await authorizationRequest.get(`/customer/${id}`);
-   return response.data;
+   return await authorizationRequest.get(`/customer/${id}`);
+};
+
+export const useFetchCustomerById = (customerId) => {
+   return useQuery(["customer-detail", customerId], () =>
+      getCustomer(customerId)
+   );
 };
 
 export const updateCustomer = async (data) => {
-   return await authorizationRequest.patch(
-      `/customer/update/${data._id}`,
-      data
-   );
+   return await authorizationRequest.put(`/customer/update/${data._id}`, data, {
+      headers: {
+         "Content-Type": "application/json",
+      },
+   });
 };

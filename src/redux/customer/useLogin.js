@@ -24,13 +24,13 @@ export const useLogin = () => {
             }
          )
          .then((res) => {
-            // save the admin in local storage
             setLoading(false);
-            localStorage.setItem("customer", JSON.stringify(response.data));
-            // update the auth context
-            dispatch({ type: "LOGIN", payload: response.data });
-            // set true
             dis(showAlert({ message: "login success", type: "success" }));
+            // save the admin in local storage
+            localStorage.setItem("customer", JSON.stringify(res.data));
+            // update the auth context
+            dispatch({ type: "LOGIN", payload: res.data });
+            // set true
 
             setTimeout(() => {
                //set false again
@@ -38,15 +38,19 @@ export const useLogin = () => {
                navigate("/products");
             }, 1500);
          })
-         .catch((err) =>
+         .catch((err) => {
+            setLoading(false);
             dis(
                showAlert({
-                  message: err.message,
+                  message: err.response.data.message,
                   type: "error",
                })
-            )
-         );
-      setLoading(false);
+            );
+            setTimeout(() => {
+               //set false again
+               dis(showAlert());
+            }, 1500);
+         });
 
       setTimeout(() => {
          dis(showAlert());

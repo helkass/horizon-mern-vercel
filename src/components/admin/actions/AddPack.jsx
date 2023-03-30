@@ -21,7 +21,7 @@ const AddPack = () => {
 
    const queryClient = useQueryClient();
 
-   const addProcuctPackMutation = useMutation(addProduct, {
+   const addProductPackMutation = useMutation(addProduct, {
       onSuccess: () => {
          setSuccess(true);
          queryClient.invalidateQueries("product");
@@ -55,7 +55,7 @@ const AddPack = () => {
    const handleSubmit = async (e) => {
       e.preventDefault();
       setLoading(true);
-      addProcuctPackMutation.mutate({
+      addProductPackMutation.mutate({
          title,
          desc,
          size,

@@ -24,7 +24,7 @@ function AdminLogin() {
                )}
                <div className="mx-auto bg-yellow-50 bg-opacity-50 text-left md:w-6/12 sm:w-9/12 w-11/12 md:mt-12 mt-36 rounded-md">
                   <h2 className="text-2xl hover-3 text-center font-flower py-1 my-12 sm:my-0">
-                     Hello Again!
+                     Hello Again Admin!
                   </h2>
                   <form
                      onSubmit={handleSubmit}

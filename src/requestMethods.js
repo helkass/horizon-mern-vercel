@@ -2,20 +2,20 @@ import axios from "axios";
 import { apiUrl } from "./constans/app";
 
 // middleware
-const customer = JSON.parse(localStorage.getItem("customer"));
-const admin = JSON.parse(localStorage.getItem("admin"));
+const customer = JSON.parse(localStorage.getItem("customer"))?.accessToken;
+const admin = JSON.parse(localStorage.getItem("admin"))?.accessToken;
 
 const getToken = () => {
    let token = "";
    if (customer) {
-      if (customer.accessToken !== null) {
-         token = customer.accessToken;
+      if (customer !== null) {
+         token = customer;
       } else {
          token;
       }
    }
    if (admin) {
-      token = admin.accessToken;
+      token = admin;
    }
 
    return token;
