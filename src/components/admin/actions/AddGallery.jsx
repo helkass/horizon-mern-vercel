@@ -44,8 +44,9 @@ const AddGallery = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      addGalleryMutation.mutate({title, desc, image, writer});
-      // e.target.reset();
+      addGalleryMutation.mutate({title, desc, image, writer}, {
+          onSuccess: e.target.reset()
+      });
    };
 
    return (

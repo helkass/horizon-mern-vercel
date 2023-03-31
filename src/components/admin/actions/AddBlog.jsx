@@ -8,7 +8,6 @@ import Success from "../../Success";
 import Bug from "../../Bug";
 import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
-import { authorizationRequest } from "../../../requestMethods";
 import {useMutation} from "react-query";
 import {addBlog} from "../../../helper/fetchBlog.js";
 // show all product from DB

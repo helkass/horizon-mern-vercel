@@ -25,7 +25,7 @@ const Gallery = () => {
                                  className="w-full relative object-cover hover:scale-110 hover:z-20 duration-300 hover:shadow-none shadow-md shadow-slate-300 h-max"
                                  key={gallery._id}>
                                  <ImageBasic
-                                    src={gallery.img}
+                                    src={gallery.img || gallery.image.url}
                                     alt={gallery.title}
                                     styledCustom="rounded-xl "
                                  />
