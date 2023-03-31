@@ -1,5 +1,4 @@
 import axios from "axios";
-import { apiUrl } from "./constans/app";
 
 // middleware
 const customer = JSON.parse(localStorage.getItem("customer"))?.accessToken;
@@ -23,8 +22,10 @@ const getToken = () => {
 
 const token = getToken();
 
+const apiUrl = import.meta.env.NODE_ENV == "production" ? "https://worried-mite-school-uniform.cyclic.app/api" : "http://localhost:5000/api";
+
 export const publicRequest = axios.create({
-   baseURL: apiUrl,
+   baseURL: apiUrl
 });
 
 export const authorizationRequest = axios.create({
