@@ -17,7 +17,7 @@ const AddBlog = () => {
    const [title, setTitle] = useState("");
    const [article, setArticle] = useState("");
    const [writer, setWriter] = useState("");
-   const [img, setImg] = useState("");
+   const [image, setImage] = useState("");
 
    const [success, setSuccess] = useState(false);
    const [error, setError] = useState(false);
@@ -33,7 +33,7 @@ const AddBlog = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-         setImg(reader.result);
+         setImage(reader.result);
       };
    };
 
@@ -57,7 +57,7 @@ const AddBlog = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      addBlogMutation.mutate({title, article, writer, img});
+      addBlogMutation.mutate({title, article, writer, image});
    };
    return (
       <>
@@ -73,7 +73,7 @@ const AddBlog = () => {
                <div className="w-10/12 mx-auto md:mx-0 gap-2 flex flex-col md:w-full">
                   <div className="mx-auto">
                      <img
-                        src={img || defaultImage}
+                        src={image || defaultImage}
                         alt="preview"
                         className="h-56 object-cover"
                      />
@@ -81,7 +81,7 @@ const AddBlog = () => {
                   <label className="block">
                      <input
                         type="file"
-                        name="img"
+                        name="image"
                         onChange={handleImage}
                         className="block text-sm cursor-pointer text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-600 hover:file:bg-violet-100"
                      />
