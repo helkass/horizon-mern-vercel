@@ -1,11 +1,7 @@
 // api url
-export const apiUrl = () => {
-   const env = import.meta.env.NODE_ENV;
-   return env == "production" ? "https://worried-mite-school-uniform.cyclic.app/api" : "http://localhost:5000/api";
-}
+export const apiUrl = "https://worried-mite-school-uniform.cyclic.app/api";
 
 // link items for navbar
-
 export const linkItems = [
    { href: "/", label: "Home" },
    { href: "/galleries", label: "Gallery" },
