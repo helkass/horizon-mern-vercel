@@ -19,7 +19,7 @@ export const Gallery = (props) => {
       >
         <CardImage
           key={props._id}
-          src={props.img} 
+          src={props.img || props.image.url}
           alt={props.title} 
           title={props.title} 
           writer={props.writer}
@@ -68,7 +68,7 @@ export const Gallery = (props) => {
                   {modalContent.map((obj, i) => (
                     <>
                       <div key={i} className="mt-4 text-gray-700">
-                        <ImageBasic src={obj.img} alt={obj.title} styledCustom="mx-auto w-11/12"/>
+                        <ImageBasic src={obj.img} alt={obj.title} styledCustom="mx-auto w-11/12 object-cover"/>
                         <p>{obj.title}</p>
                         <p>{obj.desc || "unknown"}</p>
                         <p className="text-xs text-opacity-70">

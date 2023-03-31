@@ -22,7 +22,7 @@ const Gallery = () => {
                         {data &&
                            data.slice(0, 6).map((gallery) => (
                               <div
-                                 className="w-full relative object-cover hover:scale-110 hover:z-20 duration-300 hover:shadow-none shadow-md shadow-slate-300 h-max"
+                                 className="w-full relative object-cover p-2 hover:scale-110 hover:z-20 duration-300 hover:shadow-none shadow-md shadow-slate-300 h-max"
                                  key={gallery._id}>
                                  <ImageBasic
                                     src={gallery.img || gallery.image.url}

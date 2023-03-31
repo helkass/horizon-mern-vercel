@@ -14,7 +14,7 @@ export const ImageBasic = ({ src, alt, styledCustom }) => {
       <img
          alt={alt}
          src={src}
-         className={`h-full w-full max-h-86 ${styledCustom}`}
+         className={`h-full w-full max-h-86 max-h-[280px] ${styledCustom}`}
       />
    );
 };
