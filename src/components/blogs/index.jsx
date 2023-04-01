@@ -10,7 +10,7 @@ const BlogItems = ({ image, title, id, date, article }) => {
           <img
             src={image || defaultImage}
             alt={title || "unknown"}
-            className="sm:w-72 w-56"
+            className="sm:w-72 w-56 object-cover max-h-[280px]"
           />
         </div>
       </div>

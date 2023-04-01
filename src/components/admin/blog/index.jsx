@@ -56,7 +56,7 @@ const Blogs = () => {
   );
 };
 
-function BodyBlogs({ _id, title, img }) {
+function BodyBlogs({ _id, title, img, image }) {
   const dispatch = useDispatch();
   const onDelete = async (id) => {
     dispatch(deleteAction(id))
@@ -66,9 +66,9 @@ function BodyBlogs({ _id, title, img }) {
       <div className="relative mt-3">
         <div className="blur-xs flex justify-center items-center p-1 after-gg">
           <img
-            src={img || defaultImage}
+            src={img || image?.url || defaultImage}
             alt="img-cover"
-            className="sm:w-11/12 h-50 w-full object-cover"
+            className="sm:w-11/12 max-h-[200px] h-50 w-full object-cover"
           />
         </div>
         <button

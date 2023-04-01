@@ -25,7 +25,7 @@ const BlogList = () => {
                 title={blog.title}
                 article={blog.article}
                 date={blog.createdAt}
-                image={blog.img}
+                image={blog.image.url}
               />
             ))}
         </div>

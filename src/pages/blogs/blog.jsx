@@ -36,9 +36,9 @@ const DetailBlog = () => {
                {/* image content */}
                <div className="relative w-full h-full flex justify-center item-center">
                   <img
-                     src={data.img || defaultImage}
+                     src={data.image?.url || defaultImage}
                      alt={data.title}
-                     className="h-72 sm:h-96 object-cover w-10/12"
+                     className="md:h-[420px] h-[300px] sm:h-96 object-cover w-10/12"
                   />
                </div>
                {/* main content article */}

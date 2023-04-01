@@ -10,6 +10,7 @@ import "react-quill/dist/quill.snow.css";
 import ReactQuill from "react-quill";
 import {useMutation} from "react-query";
 import {addBlog} from "../../../helper/fetchBlog.js";
+import Loading from "../../Loading";
 // show all product from DB
 const AddBlog = () => {
    const navigate = useNavigate();
@@ -21,6 +22,7 @@ const AddBlog = () => {
 
    const [success, setSuccess] = useState(false);
    const [error, setError] = useState(false);
+   const [loading, setLoading] = useState(false);
 
    // handle convert it in base64
    const handleImage = (e) => {
@@ -40,6 +42,7 @@ const AddBlog = () => {
    const addBlogMutation = useMutation(addBlog, {
       onSuccess: () => {
          setSuccess(true);
+         setLoading(false);
 
          setTimeout(() => {
             setSuccess(false);
@@ -48,6 +51,7 @@ const AddBlog = () => {
       },
       onError: () => {
          setError(true);
+         setLoading(false);
 
          setTimeout(() => {
             setError(false);
@@ -57,11 +61,15 @@ const AddBlog = () => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-      addBlogMutation.mutate({title, article, writer, image});
+      setLoading(true);
+      // addBlogMutation.mutate({title, article, writer, image});
+      console.log({title, article, writer, image});
+      setLoading(false);
    };
    return (
       <>
          <Header />
+         {loading && <Loading/>}
          <section className="sm:w-11/12 flex flex-col justify-center items-center mx-auto">
             <div className="font-flower my-10 text-2xl">
                <h2>Write Your Article</h2>
