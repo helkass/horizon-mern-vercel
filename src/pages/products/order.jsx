@@ -98,6 +98,8 @@ const Order = () => {
          }
       );
 
+      console.log("response", response);
+
       if (response.status == 201 || 200) {
          setSuccess(true);
          setLoading(false);

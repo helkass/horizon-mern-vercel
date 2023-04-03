@@ -28,7 +28,6 @@ const Dashboard = () => {
    const queryClient = useQueryClient();
 
    const { data, isLoading, isError } = useFetchCustomerById(id);
-   console.log(data)
 
    const updateCustomerMutation = useMutation(updateCustomer, {
       onSuccess: () => {

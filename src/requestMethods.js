@@ -34,3 +34,4 @@ export const authorizationRequest = axios.create({
       token: `Bearer ${token}`,
    },
 });
+
