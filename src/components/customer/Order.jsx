@@ -2,10 +2,9 @@ import React, { useState, Fragment, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loading from "../Loading";
 import { Dialog, Transition } from "@headlessui/react";
-import BlankPage from "../templates/BlankPage";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
 import { AiOutlineCopy } from "react-icons/ai";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import {
    getOrderByStatus,
    useFetchOrdersCustomerById,
@@ -34,11 +33,9 @@ function Order() {
    useEffect(() => {
       setTimeout(() => {
          const id_orders = getOrdersId(data);
-         if (isLoading == false) {
-            if (id_orders.length >= 0 && isLoading == false) {
-               for (let id of id_orders) {
-                  updateStatusOrderManual.mutate(id);
-               }
+         if (isLoading == false && id_orders.length >= 0) {
+            for (let id of id_orders) {
+               updateStatusOrderManual.mutate(id);
             }
          }
       }, 1500);

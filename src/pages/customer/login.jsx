@@ -37,7 +37,7 @@ const Login = () => {
                      Hello Again!
                   </h2>
                   {alert.status && alert.type === "success" ? (
-                     <Success message={alert.message} />
+                     <Alert success message={alert.message} />
                   ) : (
                      alert.type === "error" && (
                         <Alert

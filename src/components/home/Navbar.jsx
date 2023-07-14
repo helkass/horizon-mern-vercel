@@ -66,7 +66,10 @@ const Navbar = () => {
                   <div className="hidden md:block">
                      <div className="flex items-baseline space-x-4">
                         {linkItems.map((link, i) => (
-                           <Link to={link.href} key={i}>
+                           <Link
+                              preventScrollReset={true}
+                              to={link.href}
+                              key={i}>
                               <span
                                  className={`px-3 hover:border-amber-600 py-2 text-sm font-medium border-b-2
                         ${navbar ? " border-transparent" : "border-amber-100"}
@@ -79,7 +82,9 @@ const Navbar = () => {
                   </div>
                   {customer ? (
                      <div className="flex items-center gap-1">
-                        <Link to={`/customer/${customer._id}`}>
+                        <Link
+                           preventScrollReset={true}
+                           to={`/customer/${customer._id}`}>
                            <span className="text-md cursor-pointer capitalize">
                               {customer.fullname.split(" ")[0]}
                            </span>
@@ -92,10 +97,10 @@ const Navbar = () => {
                      </div>
                   ) : (
                      <div className="sm:flex gap-3 items-center hidden mr-2">
-                        <Link to="/login">
+                        <Link preventScrollReset to="/login">
                            <button className="px-4 py-1">Login</button>
                         </Link>
-                        <Link to="/register">
+                        <Link preventScrollReset to="/register">
                            <button
                               className={
                                  navbar
@@ -132,10 +137,10 @@ const Navbar = () => {
                      />
                   ) : (
                      <div className="gap-3 items-center mr-2">
-                        <Link to="/login">
+                        <Link preventScrollReset to="/login">
                            <button className="px-4 py-1">Login</button>
                         </Link>
-                        <Link to="/register">
+                        <Link preventScrollReset to="/register">
                            <button
                               className={
                                  navbar

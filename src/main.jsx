@@ -7,17 +7,23 @@ import { store } from "./redux/store";
 import CusContextProvider from "./redux/customer/CusContextProvider";
 import AdminContextProvider from "./redux/admin/AdminContext";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { HelmetProvider } from "react-helmet-async";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-   <QueryClientProvider client={queryClient}>
-      <AdminContextProvider>
-         <CusContextProvider>
-            <Provider store={store}>
-               <App />
-            </Provider>
-         </CusContextProvider>
-      </AdminContextProvider>
-   </QueryClientProvider>
+   <Router>
+      <QueryClientProvider client={queryClient}>
+         <AdminContextProvider>
+            <CusContextProvider>
+               <Provider store={store}>
+                  <HelmetProvider>
+                     <App />
+                  </HelmetProvider>
+               </Provider>
+            </CusContextProvider>
+         </AdminContextProvider>
+      </QueryClientProvider>
+   </Router>
 );

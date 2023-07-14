@@ -1,9 +1,4 @@
-import {
-   BrowserRouter as Router,
-   Routes,
-   Route,
-   Navigate,
-} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import BlogList from "./pages/blogs/blogList";
 import Galleries from "./pages/galleries";
 import Home from "./pages/home";
@@ -24,6 +19,7 @@ import { useAdminContext } from "./redux/admin/useAdminContext";
 import Register from "./pages/customer/register";
 import BlankPage from "./components/templates/BlankPage";
 import { useCusContext } from "./redux/customer/useCusContext";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
    const { admin } = useAdminContext();
@@ -31,7 +27,7 @@ function App() {
    const customerLocal = JSON.parse(localStorage.getItem("customer"));
 
    return (
-      <Router>
+      <>
          <Routes>
             <Route path="/" element={<Home />} exact />
             <Route path="/galleries" element={<Galleries />} exact />
@@ -90,7 +86,8 @@ function App() {
             <Route path="/admin/editpack/:id" element={<EditPack />} />
             <Route path="/admin/addblog" element={<AddBlog />} />
          </Routes>
-      </Router>
+         <ScrollToTop />
+      </>
    );
 }
 

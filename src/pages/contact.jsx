@@ -3,6 +3,7 @@ import Navbar from "../components/home/Navbar";
 import emailjs from "@emailjs/browser";
 import { ButtonBasic } from "../components/atoms/button/Button";
 import Alert from "../components/atoms/alerts/Alert";
+import SeoHelmetComponent from "../components/SeoHelmetComponent.jsx";
 
 const Contact = () => {
    const [alert, setAlert] = useState(false);
@@ -50,7 +51,12 @@ const Contact = () => {
       e.target.reset();
    };
    return (
-      <div>
+      <>
+         <SeoHelmetComponent
+            title={"horizon contact"}
+            content={"kami horizon coffee shop mendengarkan saran dari anda"}
+            href={"/contact"}
+         />
          <Navbar />
          <section className="text-gray-700 body-font relative">
             <div className="container px-5 py-24 mx-auto">
@@ -143,7 +149,7 @@ const Contact = () => {
                </form>
             </div>
          </section>
-      </div>
+      </>
    );
 };
 

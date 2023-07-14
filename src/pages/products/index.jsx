@@ -1,4 +1,4 @@
-import { useState, useEffect, memo, useReducer } from "react";
+import { useState, useEffect, memo } from "react";
 import Layout from "../../components/Layout";
 import Container from "../../components/Container";
 import Loading from "../../components/Loading";
@@ -24,6 +24,7 @@ import { ButtonLink } from "../../components/atoms/button/Button";
 import PriceInputHandleQuantity from "../../components/molecules/PriceInputHandleQuantity";
 import Alert, { AbsoluteAlert } from "../../components/atoms/alerts/Alert";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
+import SeoHelmetComponent from "../../components/SeoHelmetComponent.jsx";
 
 export default function Products() {
    // get type bottle items
@@ -40,46 +41,53 @@ export default function Products() {
    }, []);
 
    return (
-      <Layout>
-         <main className="pt-24">
-            <Container>
-               <AbsoluteAlert
-                  success
-                  message={cart.alert.message}
-                  isShow={cart.alert.status}
-               />
-               <div className="flex w-full justify-between text-amber-900 py-2 md:pb-0 items-center">
-                  <Title
-                     title="bottle and cups"
-                     styledCustom="border-b-2 border-amber-800 pb-2"
+      <>
+         <SeoHelmetComponent
+            title={"horizon product | shop"}
+            content={"kopi arabica robusta asli, cek kopi favorit kamu"}
+            href={"/products"}
+         />
+         <Layout>
+            <main className="pt-24">
+               <Container>
+                  <AbsoluteAlert
+                     success
+                     message={cart.alert.message}
+                     isShow={cart.alert.status}
                   />
-                  {/* cart */}
-                  <Cart />
-                  {/* end cart */}
-               </div>
-               {isLoading && <Loading />}
-               <GridMdFour styledCustom="mt-7">
-                  {data?.map((obj, i) => (
-                     <BottleCups {...obj} key={i} />
-                  ))}
-               </GridMdFour>
-               {isError && <Alert error message="Bad Request Error" />}
-               <br />
-               <br />
-               <div className="flex justify-center">
-                  <Title
-                     title="coffee packs"
-                     styledCustom="text-center text-amber-800 border-b-2 pb-2 border-amber-800"
-                  />
-               </div>
-               <GridMdFour styledCustom="mt-7">
-                  {packs.map((obj, i) => (
-                     <CoffeePacks {...obj} key={i} />
-                  ))}
-               </GridMdFour>
-            </Container>
-         </main>
-      </Layout>
+                  <div className="flex w-full justify-between text-amber-900 py-2 md:pb-0 items-center">
+                     <Title
+                        title="bottle and cups"
+                        styledCustom="border-b-2 border-amber-800 pb-2"
+                     />
+                     {/* cart */}
+                     <Cart />
+                     {/* end cart */}
+                  </div>
+                  {isLoading && <Loading />}
+                  <GridMdFour styledCustom="mt-7">
+                     {data?.map((obj, i) => (
+                        <BottleCups {...obj} key={i} />
+                     ))}
+                  </GridMdFour>
+                  {isError && <Alert error message="Bad Request Error" />}
+                  <br />
+                  <br />
+                  <div className="flex justify-center">
+                     <Title
+                        title="coffee packs"
+                        styledCustom="text-center text-amber-800 border-b-2 pb-2 border-amber-800"
+                     />
+                  </div>
+                  <GridMdFour styledCustom="mt-7">
+                     {packs.map((obj, i) => (
+                        <CoffeePacks {...obj} key={i} />
+                     ))}
+                  </GridMdFour>
+               </Container>
+            </main>
+         </Layout>
+      </>
    );
 }
 

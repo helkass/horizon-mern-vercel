@@ -98,16 +98,14 @@ const Order = () => {
          }
       );
 
-      console.log("response", response);
-
       if (response.status == 201 || 200) {
          setSuccess(true);
          setLoading(false);
-         // redirect to csustomer page after 2s
+         // redirect to customer page after 2s
          setTimeout(() => {
             dispatch(removeCarts());
             navigate("/products");
-         }, 1500);
+         }, 3500);
       } else {
          setLoading(false);
          setError(true);
