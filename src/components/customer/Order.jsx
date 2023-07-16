@@ -67,6 +67,8 @@ function Order() {
       <main className="w-full min-h-screen">
          {isLoading ? (
             <Loading />
+         ) : data?.length == 0 ? (
+            <Alert messaage="Order Empty. Please check your cart and chekout" />
          ) : (
             <div className="flex flex-col gap-7">
                {data?.map((order) => {

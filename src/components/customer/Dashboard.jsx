@@ -5,8 +5,7 @@ import { DefaultInput } from "../Form";
 import InputTwoFlex from "../molecules/inputs/InputTwoFlex";
 import InputReadDefaultValue from "../atoms/inputs/InputReadDefaultValue";
 import Loading from "../Loading";
-import { useMutation, useQuery, useQueryClient } from "react-query";
-import CryptoJS from "crypto-js";
+import { useMutation, useQueryClient } from "react-query";
 import {
    updateCustomer,
    useFetchCustomerById,
@@ -52,9 +51,10 @@ const Dashboard = () => {
    };
    return (
       <>
-         {isError && <Alert error message="Error data while fetching!" />}
          {isLoading ? (
             <Loading styledCustom="absolute top-0 left-0 right-0 cursor-not-allowed" />
+         ) : isError ? (
+            <Alert error message="Error data while fetching!" />
          ) : (
             <form
                onSubmit={handleUpdate}

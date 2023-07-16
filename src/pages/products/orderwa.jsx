@@ -53,7 +53,7 @@ const OrderWa = () => {
       getData();
       const user = JSON.parse(localStorage.getItem("customer"));
 
-      if(user){
+      if (user) {
          setUser(user);
       }
 
@@ -61,12 +61,11 @@ const OrderWa = () => {
          navigate("/products");
       }
    }, [id]);
-   console.log("datas", datas)
 
    function handleWhatsapp() {
       // accumulate sub total
-      let subMedium = state.qtyM * form.medium;
-      let subLarge = state.qtyL * form.large;
+      let subMedium = qtyM * form.medium;
+      let subLarge = qtyL * form.large;
 
       const checkedDevice =
          /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
