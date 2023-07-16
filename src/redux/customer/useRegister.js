@@ -1,12 +1,9 @@
 import { useCusContext } from "./useCusContext";
-import CryptoJS from "crypto-js";
 import { useNavigate } from "react-router-dom";
 import { publicRequest } from "../../requestMethods";
 import { useDispatch } from "react-redux";
 import { showAlert } from "../alert/alertReducer";
 import { useState } from "react";
-
-const SECRET = import.meta.env.SECRET;
 
 export const useRegister = () => {
    const { dispatch } = useCusContext();
@@ -16,11 +13,6 @@ export const useRegister = () => {
 
    const register = async (form) => {
       setLoading(true);
-      const accessToken = CryptoJS.AES.decrypt(
-         form.email,
-         form.password,
-         SECRET
-      );
       const customer = await publicRequest
          .post(
             "/customer/register",
@@ -28,7 +20,6 @@ export const useRegister = () => {
             {
                headers: {
                   "Content-Type": "application/json",
-                  token: `Bearer ${accessToken}`,
                },
             }
          )
@@ -46,6 +37,7 @@ export const useRegister = () => {
                   dis(showAlert());
                }, 1500)
          );
+      console.log(customer);
       if (customer.status === 201) {
          // save the admin in local storage
          localStorage.setItem("customer", JSON.stringify(customer.data));
