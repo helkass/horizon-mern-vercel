@@ -5,9 +5,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../../components/Container";
-import { authorizationRequest } from "../../requestMethods";
 import Success from "../../components/Success";
-import { apiUrl } from "../../constans/app";
 import Bug from "../../components/Bug";
 import { ImageBasic } from "../../components/atoms/image/Image";
 import InputReadDefaultValue from "../../components/atoms/inputs/InputReadDefaultValue";
@@ -18,6 +16,8 @@ import defaultImage from "../../assets/images/horizon-pack-default.png";
 
 import { bankType } from "../../constans/app";
 import Loading from "../../components/Loading";
+import { useMutation, useQueryClient } from "react-query";
+import { createOrder } from "../../helper/fetchOrder";
 
 const Order = () => {
    const cart = useSelector((state) => state.cart);
@@ -28,6 +28,8 @@ const Order = () => {
    const [customer, setCustomer] = useState({});
    const dispatch = useDispatch();
    const [isLoading, setLoading] = useState(false);
+
+   const queryClient = useQueryClient();
 
    // bank type selected
    const [bankSelected, setBankSelected] = useState("permata");
@@ -86,39 +88,33 @@ const Order = () => {
    // new data format to json for send request charge
    const newJson = JSON.stringify({ ...form, ...parameter });
 
-   // order function
-   async function charge() {
-      const response = await authorizationRequest.post(
-         `${apiUrl}/order/charge`,
-         newJson,
-         {
-            headers: {
-               "Content-Type": "application/json",
-            },
-         }
-      );
-
-      if (response.status == 201 || 200) {
-         setSuccess(true);
+   const createOrderMutation = useMutation(createOrder, {
+      onSuccess: () => {
          setLoading(false);
-         // redirect to customer page after 2s
+         setSuccess(true);
+         queryClient.invalidateQueries("product");
          setTimeout(() => {
+            setSuccess(false);
             dispatch(removeCarts());
             navigate("/products");
          }, 3500);
-      } else {
+      },
+      onError: () => {
          setLoading(false);
          setError(true);
-      }
-   }
+
+         setTimeout(() => {
+            setError(false);
+            setLoading(false);
+         }, 3500);
+      },
+   });
 
    const handleSubmit = (e) => {
       e.preventDefault();
       setLoading(true);
 
-      setTimeout(() => {
-         charge();
-      }, 1000);
+      createOrderMutation.mutate(newJson);
    };
 
    return (

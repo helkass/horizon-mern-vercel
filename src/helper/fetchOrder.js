@@ -6,6 +6,14 @@ export const getOrders = async () => {
    return response.data;
 };
 
+export const createOrder = async (data) => {
+   return await authorizationRequest.post("/order/charge", data, {
+      headers: {
+         "Content-Type": "application/json",
+      },
+   });
+};
+
 export const updateOrderStatusProcess = async (id) => {
    return await authorizationRequest.put(`/order/status/process/${id}`);
 };

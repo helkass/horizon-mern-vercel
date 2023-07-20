@@ -37,7 +37,6 @@ export const useRegister = () => {
                   dis(showAlert());
                }, 1500)
          );
-      console.log(customer);
       if (customer.status === 201) {
          // save the admin in local storage
          localStorage.setItem("customer", JSON.stringify(customer.data));
@@ -46,8 +45,9 @@ export const useRegister = () => {
          setLoading(false);
          dis(showAlert({ message: "Register success", type: "success" }));
          setTimeout(() => {
+            dis(showAlert());
             navigate("/products");
-         }, 1500);
+         }, 3500);
       }
    };
    return { register, isLoading };

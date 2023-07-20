@@ -4,7 +4,7 @@ import { FaUserFriends } from "react-icons/fa";
 import { FiBox } from "react-icons/fi";
 import { useState, useEffect, Fragment, memo } from "react";
 import { Transition, Dialog } from "@headlessui/react";
-import {authorizationRequest} from "../../requestMethods";
+import { authorizationRequest } from "../../requestMethods";
 import Loading from "../Loading";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { ButtonBasic } from "../atoms/button/Button";
@@ -152,9 +152,16 @@ function HistoryTable() {
                               order.status === "accepted" &&
                               "bg-green-100 text-green-700"
                            }`}>
-                           <span className="py-1 pl-2 w-3/12 rounded">
-                              {replaceLongChar(order._id)}
-                           </span>
+                           <div className="flex py-1 pl-2 w-3/12 rounded justify-between">
+                              <span className="py-1 pl-2 w-3/12 rounded">
+                                 {replaceLongChar(order._id)}
+                              </span>
+                              <button
+                                 className="bg-inherit"
+                                 onClick={() => copyToClipboard(order._id)}>
+                                 <MdContentCopy size={18} />
+                              </button>
+                           </div>
                            <div className="flex py-1 pl-2 w-3/12 rounded justify-between">
                               <span>
                                  {showID

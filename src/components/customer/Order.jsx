@@ -29,16 +29,15 @@ function Order() {
          ?.filter((el) => el.transaction_status !== "settlement")
          .map((el) => el._id);
    }
-
    useEffect(() => {
-      setTimeout(() => {
-         const id_orders = getOrdersId(data);
-         if (isLoading == false && id_orders.length >= 0) {
-            for (let id of id_orders) {
+      const id_orders = getOrdersId(data);
+      if (isLoading == false && id_orders.length >= 0) {
+         for (let id of id_orders) {
+            setTimeout(() => {
                updateStatusOrderManual.mutate(id);
-            }
+            }, 2000);
          }
-      }, 1500);
+      }
    }, []);
 
    const [rekening, setReKening] = useState("");
@@ -67,8 +66,11 @@ function Order() {
       <main className="w-full min-h-screen">
          {isLoading ? (
             <Loading />
-         ) : data?.length == 0 ? (
-            <Alert messaage="Order Empty. Please check your cart and chekout" />
+         ) : data.length == 0 ? (
+            <Alert
+               error
+               message="Order Empty. Please check your cart and chekout"
+            />
          ) : (
             <div className="flex flex-col gap-7">
                {data?.map((order) => {

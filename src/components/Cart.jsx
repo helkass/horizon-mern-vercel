@@ -4,7 +4,13 @@ import { BsFillCartFill } from "react-icons/bs";
 import { AiFillShopping } from "react-icons/ai";
 import { AiFillDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
-import { add, decreaseCart, getTotals, remove } from "../redux/cartReducer";
+import {
+   add,
+   decreaseCart,
+   getTotals,
+   remove,
+   removeAlert,
+} from "../redux/cartReducer";
 import { useNavigate } from "react-router-dom";
 import defaultImage from "../assets/images/horizon-pack-default.png";
 import { ButtonLink } from "./atoms/button/Button";
@@ -25,6 +31,7 @@ export default function Cart() {
    };
    const handleIncrease = (product) => {
       dispatch(add(product));
+      dispatch(removeAlert());
    };
 
    const handleRemove = (product) => {
