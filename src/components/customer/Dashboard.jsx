@@ -11,9 +11,11 @@ import {
    useFetchCustomerById,
 } from "../../helper/fetchCustomer";
 import Alert from "../atoms/alerts/Alert";
+import { useCusContext } from "../../redux/customer/useCusContext";
 
 const Dashboard = () => {
-   const { id } = useParams();
+   const [idCustomer, setIdCustomer] = useState("");
+   const { customer } = useCusContext();
    const [successUpdate, setSuccessUpdate] = useState(false);
    const [errorUpdate, setErrorUpdate] = useState(false);
    const [inputs, setInputs] = useState(null);
@@ -26,7 +28,7 @@ const Dashboard = () => {
 
    const queryClient = useQueryClient();
 
-   const { data, isLoading, isError } = useFetchCustomerById(id);
+   const { data, isLoading, isError } = useFetchCustomerById(idCustomer);
 
    const updateCustomerMutation = useMutation(updateCustomer, {
       onSuccess: () => {
@@ -39,6 +41,7 @@ const Dashboard = () => {
    });
 
    useEffect(() => {
+      setIdCustomer(customer._id);
       setTimeout(() => {
          setSuccessUpdate(false);
          setErrorUpdate(false);
@@ -58,7 +61,7 @@ const Dashboard = () => {
          ) : (
             <form
                onSubmit={handleUpdate}
-               className="sm:w-9/12 px-5 space-y-2 min-h-screen">
+               className="w-full sm:w-9/12 px-5 space-y-2 min-h-screen">
                {/* alert error while update or success */}
                {successUpdate && (
                   <Alert success message="Update profile success!" />

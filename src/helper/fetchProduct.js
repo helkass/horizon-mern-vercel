@@ -10,6 +10,11 @@ export const getPackProduct = async () => {
    return response.data;
 };
 
+export const getSingleProduct = async (id) => {
+   const response = await publicRequest.get(`/item/${id}`);
+   return response.data;
+};
+
 export const getBottleProduct = async () => {
    const response = await publicRequest.get("/item?type=bottle");
    return response.data;

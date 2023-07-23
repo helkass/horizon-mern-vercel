@@ -1,20 +1,25 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import Loading from "../Loading";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, Disclosure, Transition } from "@headlessui/react";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
-import { AiOutlineCopy } from "react-icons/ai";
+import { AiOutlineCopy, AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { useMutation, useQueryClient } from "react-query";
 import {
    getOrderByStatus,
    useFetchOrdersCustomerById,
 } from "../../helper/fetchOrder";
 import Alert from "../atoms/alerts/Alert";
+import Rating from "react-rating";
+import { ButtonBasic } from "../atoms/button/Button";
+import { useCusContext } from "../../redux/customer/useCusContext";
+import { authorizationRequest } from "../../requestMethods";
 
 function Order() {
-   const { id } = useParams();
+   const { customer } = useCusContext();
    // fetching data order by id user
-   const { data, isLoading, isError } = useFetchOrdersCustomerById(id);
+   const { data, isLoading, isError } = useFetchOrdersCustomerById(
+      customer._id
+   );
 
    const queryClient = useQueryClient();
    // update status order manual
@@ -62,6 +67,7 @@ function Order() {
 
       setIsOpen(true);
    }
+   let review = false;
    return (
       <main className="w-full min-h-screen">
          {isLoading ? (
@@ -79,45 +85,57 @@ function Order() {
                   // get status midtrans
                   const midtrans = order.response_midtrans;
                   return (
-                     <div
-                        key={order._id}
-                        className={`flex gap-2 w-full text-sm bg-opacity-50 p-3 rounded-md ${
-                           midtrans.transaction_status === "expire"
-                              ? "bg-red-50"
-                              : "bg-green-50"
-                        }`}>
-                        <div className="flex justify-between w-full">
-                           <div className="text-left space-y-1">
-                              <p>
-                                 Order ID:{" "}
-                                 <span className="text-yellow-400">
-                                    {order._id}
-                                 </span>
-                              </p>
-                              {order.products.map((product) => (
-                                 <div
-                                    key={product.product_name}
-                                    className="flex flex-col gap-2">
-                                    <li className="capitalize">
-                                       {product.product_name}
-                                    </li>
-                                 </div>
-                              ))}
-                              <p>
-                                 Total :{" "}
-                                 <span className="text-yellow-500">
-                                    Rp.
-                                    {currencyFormater(midtrans.gross_amount)}
-                                 </span>
-                              </p>
-                              <p className="text-red-500 text-sm">
-                                 at : <span>{midtrans.transaction_time}</span>
-                              </p>
-                           </div>
+                     <div key={order._id}>
+                        <div
+                           key={order._id}
+                           className={`flex gap-2 w-full text-sm bg-opacity-50 p-3 rounded-md relative ${
+                              midtrans.transaction_status === "expire"
+                                 ? "bg-red-50"
+                                 : "bg-green-50"
+                           }`}>
+                           <div className="flex justify-between w-full">
+                              <div className="text-left space-y-1 w-full">
+                                 <p>
+                                    Order ID:{" "}
+                                    <span className="text-yellow-400">
+                                       {order._id}
+                                    </span>
+                                 </p>
+                                 {order.products.map((product) => (
+                                    <div
+                                       key={product.product_name}
+                                       className="flex flex-col gap-2">
+                                       <li className="capitalize">
+                                          {product.product_name}
+                                       </li>
+                                    </div>
+                                 ))}
+                                 <p>
+                                    Total :{" "}
+                                    <span className="text-yellow-500">
+                                       Rp.
+                                       {currencyFormater(midtrans.gross_amount)}
+                                    </span>
+                                 </p>
+                                 <p className="text-red-500 text-sm">
+                                    at :{" "}
+                                    <span>{midtrans.transaction_time}</span>
+                                 </p>
+                                 {midtrans.transaction_status ===
+                                    "settlement" &&
+                                    data?.review == false && (
+                                       <Comment
+                                          comment={order?.review}
+                                          order_id={order._id}
+                                          products_id={order?.products.map(
+                                             (product) => product.productId
+                                          )}
+                                       />
+                                    )}
+                              </div>
 
-                           {/* if transaciton status is not expire and render modal va number for transaction */}
-                           {midtrans.transaction_status !== "expire" ? (
-                              <div className="flex justify-end items-end h-full">
+                              {/* if transaciton status is not expire and render modal va number for transaction */}
+                              {midtrans.transaction_status !== "expire" ? (
                                  <Modal
                                     disabled={
                                        midtrans.transaction_status ===
@@ -131,11 +149,14 @@ function Order() {
                                     isOpen={isOpen}
                                     closeModal={closeModal}
                                  />
-                              </div>
-                           ) : (
-                              <span>Order Expired</span>
-                           )}
+                              ) : (
+                                 <span className="whitespace-nowrap">
+                                    Order Expired
+                                 </span>
+                              )}
+                           </div>
                         </div>
+                        {/* comment */}
                      </div>
                   );
                })}
@@ -143,6 +164,100 @@ function Order() {
          )}
          {isError && <Alert error message="Error while fetching data!" />}
       </main>
+   );
+}
+
+// add comment and rating
+function Comment({ comment, order_id, products_id }) {
+   const { customer } = useCusContext();
+   const [rating, setRating] = useState(null);
+   const [comments, setComments] = useState(null);
+   const queryClient = useQueryClient();
+
+   const handlePostReview = async () => {
+      await authorizationRequest.post(
+         "/review/create",
+         {
+            customer_details: {
+               customer_id: customer._id,
+               customer_name: customer.fullname,
+               customer_address: `${customer.city}, ${customer.province}`,
+            },
+            order_id: order_id,
+            products: products_id,
+            rating: rating,
+            comment: comments,
+         },
+         {
+            headers: {
+               "Content-Type": "application/json",
+            },
+         }
+      );
+   };
+
+   const updateReviewMutation = useMutation(handlePostReview, {
+      onSuccess: () => {
+         queryClient.invalidateQueries("review");
+      },
+   });
+
+   const post = async () => {
+      updateReviewMutation.mutateAsync();
+   };
+
+   return (
+      <Disclosure>
+         <Disclosure.Button
+            disabled={comment}
+            className={"bg-green-200 text-green-700 px-7 py-2 rounded"}>
+            Comment
+         </Disclosure.Button>
+         <Transition
+            enter="transition duration-100 ease-out"
+            enterFrom="transform scale-95 opacity-0"
+            enterTo="transform scale-100 opacity-100"
+            leave="transition duration-75 ease-out"
+            leaveFrom="transform scale-100 opacity-100"
+            leaveTo="transform scale-95 opacity-0">
+            <Disclosure.Panel className={"mt-2"}>
+               <p className="text-slate-400 text-sm">Comments</p>
+               <div className="flex gap-3">
+                  <div className="flex w-full flex-col gap-3">
+                     <textarea
+                        name="comment"
+                        maxLength={550}
+                        className="w-10/12 outline-green-200 focus:outline-green-500 p-2"
+                        onChange={(e) => setComments(e.target.value)}
+                     />
+                     <div className="flex justify-between w-full">
+                        <div className="flex flex-col gap-3">
+                           <span className="text-slate-400 text-sm">
+                              Rating
+                           </span>
+                           <Rating
+                              emptySymbol={
+                                 <AiOutlineStar size={22} color="green" />
+                              }
+                              fullSymbol={
+                                 <AiFillStar size={22} color="yellow" />
+                              }
+                              onClick={(e) => setRating(e)}
+                           />
+                        </div>
+                        <Disclosure.Button
+                           onClick={post}
+                           className={
+                              "px-6 h-max self-end whitespace-nowrap bg-green-200 text-green-700 border border-green-600 rounded hover:bg-green-100 hover:text-green-700"
+                           }>
+                           Add Comment
+                        </Disclosure.Button>
+                     </div>
+                  </div>
+               </div>
+            </Disclosure.Panel>
+         </Transition>
+      </Disclosure>
    );
 }
 
@@ -158,7 +273,7 @@ function Modal(props) {
             onClick={props.openModal}
             className={`rounded-md ${
                props.disabled
-                  ? "bg-green-50 text-green-400 border-green-300"
+                  ? "bg-green-50 text-green-400 border-green-300 absolute top-2 right-2"
                   : "bg-green-100 text-green-600 border-green-500"
             } bg-opacity-20 px-4 py-2 text-sm font-medium hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 border`}>
             {props.disabled ? "Sudah dibayar" : props.title}

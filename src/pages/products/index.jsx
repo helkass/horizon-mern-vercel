@@ -20,7 +20,7 @@ import useFetchGet from "../../hooks/useFetchGet";
 import GridMdFour from "../../components/templates/Grid";
 import Title from "../../components/atoms/title/Title";
 import Modal from "../../components/organism/Modal";
-import { ButtonLink } from "../../components/atoms/button/Button";
+import { ButtonBasic, ButtonLink } from "../../components/atoms/button/Button";
 import PriceInputHandleQuantity from "../../components/molecules/PriceInputHandleQuantity";
 import Alert, { AbsoluteAlert } from "../../components/atoms/alerts/Alert";
 import { currencyFormater } from "../../functions/formater/currencyFormater";
@@ -301,8 +301,18 @@ const CoffeePacks = memo(function (props) {
                      <div className="mt-3">
                         <p className="text-xl">{obj.title || "unknown"}</p>
                         <p>size : {obj.size} gr</p>
-                        <p>{obj.desc || "unknown"}</p>
+                        <p
+                           className="line-clamp-3"
+                           dangerouslySetInnerHTML={{ __html: obj.desc }}
+                        />
                      </div>
+                  </div>
+                  <div className="flex justify-end mt-5">
+                     <ButtonBasic
+                        href={`/products/${obj._id}`}
+                        title={"Full Details"}
+                        styledCustom={"px-3 bg-amber-200"}
+                     />
                   </div>
                </div>
             ))}

@@ -41,7 +41,6 @@ input:focus {
 .hover-3:hover {
    --p: 101%;
    --t: 0.3s;
-   color: inherit;
 }
 
 /* blog page */

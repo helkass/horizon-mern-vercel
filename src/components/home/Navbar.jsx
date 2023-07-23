@@ -7,6 +7,7 @@ import { useLogout } from "../../redux/customer/useLogout";
 import { linkItems } from "../../constans/app";
 import { ButtonBasic } from "../atoms/button/Button";
 import { AiOutlineClose } from "react-icons/ai";
+import { linkFormater } from "../../functions/formater/linkFormater";
 
 const Navbar = () => {
    const { logout } = useLogout();
@@ -84,7 +85,7 @@ const Navbar = () => {
                      <div className="flex items-center gap-1">
                         <Link
                            preventScrollReset={true}
-                           to={`/customer/${customer._id}`}>
+                           to={`/customer/${linkFormater(customer.fullname)}`}>
                            <span className="text-md cursor-pointer capitalize">
                               {customer.fullname.split(" ")[0]}
                            </span>

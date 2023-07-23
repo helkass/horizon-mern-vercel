@@ -3,6 +3,7 @@ import { Disclosure } from "@headlessui/react";
 import { AiOutlineDown } from "react-icons/ai";
 import Title, { SubTitle } from "../atoms/title/Title";
 import { ButtonBasic } from "../atoms/button/Button";
+import Testimonial from "./Testimonial";
 
 const Reviews = () => {
    return (
@@ -25,6 +26,7 @@ const Reviews = () => {
                <Disclosures />
             </div>
          </section>
+         <Testimonial />
          <TakeOut />
       </Container>
    );

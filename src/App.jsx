@@ -6,6 +6,7 @@ import Blog from "./pages/blogs/blog";
 import Contact from "./pages/contact";
 import Login from "./pages/customer/login";
 import Products from "./pages/products";
+import DetailProduct from "./pages/products/detailProduct";
 import AdminLogin from "./pages/authAdmin/login";
 import Admin from "./pages/admin";
 import Order from "./pages/products/order";
@@ -40,6 +41,7 @@ function App() {
                exact
             />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<DetailProduct />} />
             <Route
                path="/order"
                element={
